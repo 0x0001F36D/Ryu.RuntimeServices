@@ -9,6 +9,19 @@ namespace Viyrex.RuntimeServices
 
     public static class SupportUtil
     {
+        #region Public Enums
+
+        public enum TreatmentMode
+        {
+            NotTreated,
+            Interface,
+            AbstractClass,
+            Class,
+        }
+
+        #endregion Public Enums
+
+        #region Public Classes
 
         [Serializable]
         public sealed class ConstructorNotFoundException : Exception
@@ -29,34 +42,55 @@ namespace Viyrex.RuntimeServices
         }
 
         [Serializable]
-        public sealed class TypeNotSupportedException : Exception
+        public sealed class GenericArgumentException<T> : Exception
         {
-            public TypeNotSupportedException(Type type) {
-                this.Type = type;
+            #region Public Constructors
+
+            public GenericArgumentException(string reason) : base($"Not supported this generic argument type: {typeof(T).Name}. Reason: {reason}")
+            {
+                this.Type = typeof(T);
+                this.Reason = reason;
             }
 
+            public GenericArgumentException() : base($"Not supported this generic argument type: {typeof(T).Name}.")
+            {
+                this.Type = typeof(T);
+            }
+
+            #endregion Public Constructors
+
+            #region Private Constructors
+
+            private GenericArgumentException(SerializationInfo info, StreamingContext context) : base(info, context)
+            {
+            }
+
+            #endregion Private Constructors
+
+            #region Public Properties
+
+            public string Reason { get; }
+
             public Type Type { get; }
+
+            #endregion Public Properties
         }
-        
-        public enum TreatmentMode
-        {
-            NotTreated,
-            Interface,
-            AbstractClass,
-            Class,
-        }
+
+        #endregion Public Classes
+
+        #region Public Methods
 
         public static TreatmentMode IsSupported(Type type)
         {
             if (type.IsPrimitive)
-                return TreatmentMode.NotTreated;            
+                return TreatmentMode.NotTreated;
             if (type.IsEnum)
                 return TreatmentMode.NotTreated;
             if (type.IsValueType)
                 return TreatmentMode.NotTreated;
             if (type.IsSealed)
                 return TreatmentMode.NotTreated;
-            
+
             if (type.IsInterface)
                 return TreatmentMode.Interface;
             if (type.IsAbstract)
@@ -72,23 +106,8 @@ namespace Viyrex.RuntimeServices
             }
 
             return TreatmentMode.NotTreated;
-            
         }
 
-
-
-        [Serializable]
-        public sealed class GenericArgumentException<T> : Exception
-        {
-
-            public GenericArgumentException() : base($"Not supported this generic argument type: {typeof(T).Name}.")
-            {
-                this.Type = typeof(T);
-            }
-            private GenericArgumentException(SerializationInfo info,StreamingContext context) : base(info, context) { }
-            
-            public Type Type { get; }
-        }
+        #endregion Public Methods
     }
 }
-

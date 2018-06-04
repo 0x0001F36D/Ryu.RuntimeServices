@@ -7,11 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Viyrex.RuntimeServices")]
 [assembly: AssemblyProduct("Viyrex.RuntimeServices")]
 [assembly: AssemblyCopyright("Copyright © Viyrex(aka Yuyu) 2018")]
-
-
 [assembly: ComVisible(false)]
-
 [assembly: Guid("ef28690e-268a-4b0e-8a5e-bf0eb4e4f978")]
-
-[assembly: AssemblyVersion("1.0.372.6729")]
-[assembly: AssemblyFileVersion("2018.6.3.1948")]
+[assembly: AssemblyVersion("1.0.400.6730")]
+[assembly: AssemblyFileVersion("2018.6.4.2033")]

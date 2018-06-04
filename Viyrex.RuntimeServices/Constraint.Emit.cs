@@ -1,16 +1,24 @@
-﻿
+﻿// Author: Viyrex(aka Yuyu)
+// Contact: mailto:viyrex.aka.yuyu@gmail.com
+// Github: https://github.com/0x0001F36D
+
 namespace Viyrex.RuntimeServices
 {
     using System;
+    using System.Linq;
     using System.Reflection;
     using System.Reflection.Emit;
-    using System.Linq;
-
     using static System.Reflection.Emit.OpCodes;
 
-    partial class Constraint<T>
+    partial class Constraint<TConstraint>
     {
+        #region Private Fields
+
         private const string DYNAMIC_CTOR = ".#";
+
+        #endregion Private Fields
+
+        #region Internal Methods
 
         internal Delegate BuildWith(ConstructorInfo ctor)
         {
@@ -23,6 +31,7 @@ namespace Viyrex.RuntimeServices
 
             // var local_0 = default(ctor.DeclaringType);
             il.DeclareLocal(ctor.DeclaringType);
+
             // prepare args [0,1,2,...]
             for (int i = 0; i < parameters.Length; i++)
             {
@@ -35,16 +44,22 @@ namespace Viyrex.RuntimeServices
                     default: il.Emit(Ldarg_S, i); break;
                 }
             }
+
             // reg = new ctor.DeclaringType(args);
             il.Emit(Newobj, ctor);
+
             // local_0 = reg;
             il.Emit(Stloc_0);
+
             // goto labal_0;
             il.Emit(Br_S, label_0);
+
             // labal_0:
             il.MarkLabel(label_0);
+
             // reg = local_0;
             il.Emit(Ldloc_0);
+
             // return reg;
             il.Emit(Ret);
 
@@ -52,6 +67,6 @@ namespace Viyrex.RuntimeServices
             return dele;
         }
 
-
+        #endregion Internal Methods
     }
 }

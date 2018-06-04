@@ -1,4 +1,4 @@
-﻿## *Viyrex.RuntimeService*
+﻿## *Viyrex.RuntimeServices*
 
 - ## 用途
     高效能的動態物件實體產生器 (*emit* + *delegate cache*)

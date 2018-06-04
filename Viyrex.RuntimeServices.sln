@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viyrex.RuntimeServices", "Viyrex.RuntimeServices\Viyrex.RuntimeServices.csproj", "{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{4C9D25F8-CFB4-4D58-BC06-5E9D0C7D4FA5}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

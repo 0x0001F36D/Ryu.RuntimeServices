@@ -2,30 +2,30 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 
-namespace Viyrex.RuntimeServices
+namespace Viyrex.RuntimeServices.Callable
 {
     using System;
-    using System.Linq;
     using System.Reflection;
     using System.Reflection.Emit;
+    using Internal;
     using static System.Reflection.Emit.OpCodes;
 
     partial class Constraint<TConstraint>
     {
-        #region Private Fields
+        #region Fields
 
         private const string DYNAMIC_CTOR = ".#";
 
-        #endregion Private Fields
+        #endregion Fields
 
-        #region Internal Methods
+        #region Methods
 
         internal Delegate BuildWith(ConstructorInfo ctor)
         {
             var parameters = ctor.GetParameters();
             var deletype = this.PlainMake(parameters, ctor.DeclaringType);
 
-            var dm = new DynamicMethod(DYNAMIC_CTOR, ctor.DeclaringType, parameters.Select(x => x.ParameterType).ToArray(), deletype, true);
+            var dm = new DynamicMethod(DYNAMIC_CTOR, ctor.DeclaringType, parameters.ToTypeArray(), deletype, true);
             var il = dm.GetILGenerator();
             var label_0 = il.DefineLabel();
 
@@ -67,6 +67,6 @@ namespace Viyrex.RuntimeServices
             return dele;
         }
 
-        #endregion Internal Methods
+        #endregion Methods
     }
 }

@@ -4,7 +4,7 @@
 
 #define NOT_SUPPORT_GENERIC_TYPE
 
-namespace Viyrex.RuntimeServices
+namespace Viyrex.RuntimeServices.Callable
 {
     using System;
     using System.Collections.Generic;
@@ -13,27 +13,27 @@ namespace Viyrex.RuntimeServices
     using System.Reflection;
     using System.Reflection.Emit;
     using System.Runtime.CompilerServices;
-
+    using Exceptions;
+    using Internal;
     using static SupportUtil;
 
     /// <summary>
-    /// 提供製作動態 <typeparamref name="TConstraint"/> 物件的支援，
-    /// 且 <typeparamref name="TConstraint"/> 必須是無泛型參數的
-    /// <see langword="abstract"/> <see langword="class"/>、
-    /// <see langword="class"/> 或 <see langword="interface"/> 類型
+    /// 提供製作動態 <typeparamref name="TConstraint"/> 物件的支援， 且 <typeparamref name="TConstraint"/>
+    /// 必須是無泛型參數的 <see langword="abstract"/><see langword="class"/>、 <see langword="class"/> 或 <see
+    /// langword="interface"/> 類型
     /// </summary>
-    /// <typeparam name="TConstraint"> 欲製作實體之類型。
-    /// 必須是無泛型參數的<see langword="abstract"/> <see langword="class"/>、
-    /// <see langword="class"/> 或 <see langword="interface"/> 類型
+    /// <typeparam name="TConstraint">
+    /// 欲製作實體之類型。 必須是無泛型參數的 <see langword="abstract"/><see langword="class"/>、 <see
+    /// langword="class"/> 或 <see langword="interface"/> 類型
     /// </typeparam>
     /// <exception cref="GenericArgumentException{T}"/>
     public sealed partial class Constraint<TConstraint>
     {
-        #region Private Structs
+        #region Structs
 
         private struct Bag
         {
-            #region Public Constructors
+            #region Constructors
 
             public Bag(ConstructorInfo ctor)
                 : this(ctor.DeclaringType, ctor.GetParameters().Select(v => v.ParameterType).ToArray())
@@ -47,23 +47,23 @@ namespace Viyrex.RuntimeServices
                 this._hash = GetHashCode(@return, arguments);
             }
 
-            #endregion Public Constructors
+            #endregion Constructors
 
-            #region Private Fields
+            #region Fields
 
             private readonly int _hash;
 
-            #endregion Private Fields
+            #endregion Fields
 
-            #region Public Properties
+            #region Properties
 
             public Type[] Arguments { get; }
 
             public Type Return { get; }
 
-            #endregion Public Properties
+            #endregion Properties
 
-            #region Public Methods
+            #region Methods
 
             public static int GetHashCode(Type @return, Type[] arguments)
             {
@@ -108,12 +108,12 @@ namespace Viyrex.RuntimeServices
 
             public override int GetHashCode() => this._hash;
 
-            #endregion Public Methods
+            #endregion Methods
         }
 
-        #endregion Private Structs
+        #endregion Structs
 
-        #region Public Constructors
+        #region Constructors
 
         static Constraint()
         {
@@ -126,17 +126,6 @@ namespace Viyrex.RuntimeServices
             SupportedGenericType();
         }
 
-        [Conditional("NOT_SUPPORT_GENERIC_TYPE")]
-        private static void SupportedGenericType()
-        {
-            if (s_GenericType.IsGenericType)
-                throw new GenericArgumentException<TConstraint>("Can't process generic type");
-        }
-
-        #endregion Public Constructors
-
-        #region Private Constructors
-
         private Constraint()
         {
             this._multicastDelegete = typeof(MulticastDelegate);
@@ -147,109 +136,6 @@ namespace Viyrex.RuntimeServices
             this._module = assembly.DefineDynamicModule(Guid.NewGuid().ToString());
 
             this._caches = new Dictionary<Bag, Delegate>();
-
-            this.Init();
-        }
-
-        #endregion Private Constructors
-
-        #region Private Fields
-
-        private const BindingFlags ALL = (BindingFlags)17301375;
-        private const string INVOKE = "Invoke";
-        private const MethodAttributes PUBLIC_HIDEBYSIG = MethodAttributes.HideBySig | MethodAttributes.Public;
-        private const TypeAttributes PUBLIC_SEALED = TypeAttributes.Sealed | TypeAttributes.Public;
-        private static readonly Type s_GenericType;
-        private static readonly TreatmentMode s_HowToTreat;
-        private static readonly object s_locker = new object();
-
-        private static volatile Constraint<TConstraint> s_instance;
-
-        private readonly Dictionary<Bag, Delegate> _caches;
-
-        private readonly ModuleBuilder _module;
-
-        private readonly Type _multicastDelegete, _object, _intPtr;
-
-        #endregion Private Fields
-
-        #region Public Properties
-
-        /// <summary>
-        /// 取得 <typeparamref name="TConstraint"/> 類型的 <see cref="Type"/> 物件
-        /// </summary>
-        public Type ConstraintType => s_GenericType;
-
-        /// <summary>
-        /// 對 <typeparamref name="TConstraint"/> 類型的處理方式
-        /// </summary>
-        public TreatmentMode TreatmentMode => s_HowToTreat;
-
-        #endregion Public Properties
-
-        #region Internal Properties
-
-        /// <summary>
-        /// 提供一組 Collector 實體做為 <typeparamref name="TConstraint"/> 類型/介面的集合器
-        /// </summary>
-        internal static Constraint<TConstraint> Collector
-        {
-            get
-            {
-                if (s_instance == null)
-                    lock (s_locker)
-                        if (s_instance == null)
-                            s_instance = new Constraint<TConstraint>();
-                return s_instance;
-            }
-        }
-
-        #endregion Internal Properties
-
-        #region Internal Methods
-
-        /// <summary>
-        /// 製作 <see langword="delegate"/> 類型的動態類型
-        /// </summary>
-        /// <param name="delegateParameters">欲製作之動態 <see langword="delegate"/> 類型的參數</param>
-        /// <param name="delegateReturnType">欲製作之動態 <see langword="delegate"/> 類型的回傳類型</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Type PlainMake(ParameterInfo[] delegateParameters, Type delegateReturnType)
-        {
-            var delegateTypeName = $"#{Guid.NewGuid()}";
-
-            var parameterTypes = delegateParameters.Select(p => p.ParameterType).ToArray();
-
-            // class
-            var typeTemplate = this._module.DefineType(delegateTypeName, PUBLIC_SEALED, this._multicastDelegete);
-
-            // .ctor(object, IntPtr)
-            var ctor = typeTemplate.DefineConstructor(MethodAttributes.RTSpecialName | PUBLIC_HIDEBYSIG, CallingConventions.Standard, new[] { this._object, this._intPtr });
-            ctor.SetImplementationFlags(MethodImplAttributes.CodeTypeMask);
-
-            // returnType Invoke(parameters[0], parameters[1], ...)
-            var invoke = typeTemplate.DefineMethod(INVOKE, MethodAttributes.Virtual | PUBLIC_HIDEBYSIG, delegateReturnType, parameterTypes);
-            invoke.SetImplementationFlags(MethodImplAttributes.CodeTypeMask);
-
-            // skip i = 0 cuz 0 equals then "this"(aka MSIL.Ldarg0)
-            for (int i = delegateParameters.Length; i > 0;)
-                invoke.DefineParameter(i--, ParameterAttributes.None, delegateParameters[i].Name);
-
-            // create delegate type
-            // 動態委派類型
-            var delegateType = typeTemplate.CreateType();
-
-            return delegateType;
-        }
-
-        #endregion Internal Methods
-
-        #region Private Methods
-
-        private void Init()
-        {
-            this._caches.Clear();
 
             // get all types and add into typeCache
             var predicator = default(Func<Type, bool>);
@@ -271,6 +157,7 @@ namespace Viyrex.RuntimeServices
             var asms = AppDomain.CurrentDomain.GetAssemblies();
 
             var types = asms.SelectMany(t => t.GetTypes()).Where(predicator);
+            this.Types = types.ToArray();
 
             var ctors = types.SelectMany(c => c.GetConstructors(ALL));
             foreach (var ctor in ctors)
@@ -279,6 +166,111 @@ namespace Viyrex.RuntimeServices
             }
         }
 
-        #endregion Private Methods
+        #endregion Constructors
+
+        #region Fields
+
+        private const BindingFlags ALL = (BindingFlags)17301375;
+
+        private const string INVOKE = "Invoke";
+
+        private const MethodAttributes PUBLIC_HIDEBYSIG = MethodAttributes.HideBySig | MethodAttributes.Public;
+
+        private const TypeAttributes PUBLIC_SEALED = TypeAttributes.Sealed | TypeAttributes.Public;
+
+        private static readonly Type s_GenericType;
+
+        private static readonly TreatmentMode s_HowToTreat;
+
+        private static readonly object s_locker = new object();
+
+        private static volatile Constraint<TConstraint> s_instance;
+
+        private readonly Dictionary<Bag, Delegate> _caches;
+
+        private readonly ModuleBuilder _module;
+
+        private readonly Type _multicastDelegete, _object, _intPtr;
+
+        #endregion Fields
+
+        #region Properties
+
+        /// <summary>
+        /// 提供一組 Collector 實體做為 <typeparamref name="TConstraint"/> 類型/介面的集合器
+        /// </summary>
+        public static Constraint<TConstraint> Collector
+        {
+            get
+            {
+                if (s_instance == null)
+                    lock (s_locker)
+                        if (s_instance == null)
+                            s_instance = new Constraint<TConstraint>();
+                return s_instance;
+            }
+        }
+
+        /// <summary>
+        /// 取得 <typeparamref name="TConstraint"/> 類型的 <see cref="Type"/> 物件
+        /// </summary>
+        public Type ConstraintType => s_GenericType;
+
+        /// <summary>
+        /// 對 <typeparamref name="TConstraint"/> 類型的處理方式
+        /// </summary>
+        public TreatmentMode TreatmentMode => s_HowToTreat;
+
+        /// <summary>
+        /// 取得所有實作或繼承 <typeparamref name="TConstraint"/> 類型的 <see cref="Type"/> 物件
+        /// </summary>
+        public Type[] Types { get; }
+
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// 製作 <see langword="delegate"/> 類型的動態類型
+        /// </summary>
+        /// <param name="delegateParameters">欲製作之動態 <see langword="delegate"/> 類型的參數</param>
+        /// <param name="delegateReturnType">欲製作之動態 <see langword="delegate"/> 類型的回傳類型</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal Type PlainMake(ParameterInfo[] delegateParameters, Type delegateReturnType)
+        {
+            var delegateTypeName = $"#{Guid.NewGuid()}";
+
+            var parameterTypes = delegateParameters.ToTypeArray();
+
+            // class
+            var typeTemplate = this._module.DefineType(delegateTypeName, PUBLIC_SEALED, this._multicastDelegete);
+
+            // .ctor(object, IntPtr)
+            var ctor = typeTemplate.DefineConstructor(MethodAttributes.RTSpecialName | PUBLIC_HIDEBYSIG, CallingConventions.Standard, new[] { this._object, this._intPtr });
+            ctor.SetImplementationFlags(MethodImplAttributes.CodeTypeMask);
+
+            // returnType Invoke(parameters[0], parameters[1], ...)
+            var invoke = typeTemplate.DefineMethod(INVOKE, MethodAttributes.Virtual | PUBLIC_HIDEBYSIG, delegateReturnType, parameterTypes);
+            invoke.SetImplementationFlags(MethodImplAttributes.CodeTypeMask);
+
+            // skip i = 0 cuz 0 equals then "this"(aka MSIL.Ldarg0)
+            for (int i = delegateParameters.Length; i > 0;)
+                invoke.DefineParameter(i--, ParameterAttributes.None, delegateParameters[i].Name);
+
+            // create delegate type 動態委派類型
+            var delegateType = typeTemplate.CreateType();
+
+            return delegateType;
+        }
+
+        [Conditional("NOT_SUPPORT_GENERIC_TYPE")]
+        private static void SupportedGenericType()
+        {
+            if (s_GenericType.IsGenericType)
+                throw new GenericArgumentException<TConstraint>("Can't process generic type");
+        }
+
+        #endregion Methods
     }
 }

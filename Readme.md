@@ -1,4 +1,4 @@
-﻿## *Viyrex.RuntimeServices*
+﻿## *Constraint\<T>*
 
 - ## 用途
     高效能的動態物件實體產生器 (*emit* + *delegate cache*)
@@ -30,26 +30,36 @@
   
     \<?\> 必須是 介面、抽象類別或者類別 等可被實作或繼承的結構
     ```csharp
-    // <?>: Abstract class or Class or Interface
-    // Gets Collector for make dynamic object
     var collector = Constraint<?>.Collector;
     ```
-    
+    <br>
+
+    #### Strict 模式
     \<??\> 必須是實作或繼承自 \<?\> 介面或類別的對象或子類別<br>
-    *Return* 泛型函數會回傳一個 *LockedReturn* 結構用於在執行期建構動態 \<??\> 物件<br>
-    你可以透過結構內的 *New()* 泛型函數做為建構物件的代理建構子函數以在執行期建立物件
+    *Strict* 泛型函數會回傳一個 *LockedReturn* 結構用於在執行期建構動態 \<??\> 物件<br>
+    你可以透過結構內的 *New()* 泛型函數(強型別)做為建構物件的代理建構子函數以在執行期建立物件<br>
+    ***注意 : New() 是一個強型別函數，若建構子引數型態為 object ，請將你的參數轉型成 object 型態***
     ```csharp
-    // <??>: implemented or inherited from <?>
-    // Return<??>() function will return the LockedReturn type
-    // for call the New() function
-    // The New(...) function is polymorphism function for strong type
-    // arguments to creating the <??> object in runtime
-    var obj = collector.Return<??>().New<...>(...);
+    var obj = collector.Strict<??>().New(...); 
     ```
+    
+    <br>
+    
+    #### Fuzzy 模式
+    透過 *Fuzzy()* 函數的參數群推斷建構子引數相同之類型並透過 *NewAll()* 函數建立多個物件實體
+    ```csharp
+    var objs = collector.Fuzzy(...).NewAll();
+    ```
+    <br>
+
 - ## 歷史
+  - v2-1: <br>
+    整理程式碼，實作 *Fuzzy* 模式，可透過參數模糊匹配物件
   - v2: <br>
     將 *CallSite\<T>* 類別移除，改用 *Constraint\<TConstraint>* 類別作為主類別<br>
     並優化類別的快取查詢功能以及新增 *Readme.md*
   - v1: <br>
     使用 *CallSite\<T>* 類別做為基底類別 
+
+
     

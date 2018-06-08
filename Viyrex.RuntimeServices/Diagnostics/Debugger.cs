@@ -17,6 +17,14 @@ namespace Viyrex.RuntimeServices.Diagnostics
 
         private static void Main(string[] args)
         {
+            var s = Types.List;
+            foreach (var item in s)
+            {
+                Console.WriteLine(item);
+            }
+            Console.ReadKey();
+            return;
+
             // collected types: T1, T2, T3
             var collector = Constraint<ITestInterface>.Collector;
 

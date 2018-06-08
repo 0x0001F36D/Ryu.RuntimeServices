@@ -2,11 +2,11 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 
-namespace Viyrex.RuntimeServices.Callable
+namespace Viyrex.RuntimeServices.Callable.Internal
 {
     using System;
 
-    public static class SupportUtil
+    internal static class SupportUtil
     {
         #region Enums
 

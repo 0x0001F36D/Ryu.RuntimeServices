@@ -4,7 +4,7 @@
 
 namespace Viyrex.RuntimeServices.Callable
 {
-    public interface IConstraintCollector<TConstraint>
+    internal interface IConstraintCollector<TConstraint>
     {
         #region Properties
 

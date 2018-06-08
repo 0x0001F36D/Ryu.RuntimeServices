@@ -15,7 +15,7 @@ namespace Viyrex.RuntimeServices.Callable
     using System.Runtime.CompilerServices;
     using Exceptions;
     using Internal;
-    using static SupportUtil;
+    using static Internal.SupportUtil;
 
     /// <summary>
     /// 提供製作動態 <typeparamref name="TConstraint"/> 物件的支援， 且 <typeparamref name="TConstraint"/>
@@ -31,7 +31,7 @@ namespace Viyrex.RuntimeServices.Callable
     {
         #region Structs
 
-        private struct Bag
+        private struct Bag : IInternalBag
         {
             #region Constructors
 
@@ -40,7 +40,7 @@ namespace Viyrex.RuntimeServices.Callable
             {
             }
 
-            public Bag(Type @return, Type[] arguments)
+            public Bag(System.Type @return, System.Type[] arguments)
             {
                 this.Return = @return;
                 this.Arguments = arguments;
@@ -57,7 +57,7 @@ namespace Viyrex.RuntimeServices.Callable
 
             #region Properties
 
-            public Type[] Arguments { get; }
+            public System.Type[] Arguments { get; }
 
             public Type Return { get; }
 
@@ -65,7 +65,7 @@ namespace Viyrex.RuntimeServices.Callable
 
             #region Methods
 
-            public static int GetHashCode(Type @return, Type[] arguments)
+            public static int GetHashCode(System.Type @return, System.Type[] arguments)
             {
                 var s = @return.GetHashCode() * -2;
                 for (int i = 0; i < arguments.Length; i++)
@@ -135,10 +135,10 @@ namespace Viyrex.RuntimeServices.Callable
             var assembly = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("#"), AssemblyBuilderAccess.RunAndCollect);
             this._module = assembly.DefineDynamicModule(Guid.NewGuid().ToString());
 
-            this._caches = new Dictionary<Bag, Delegate>();
+            this.InternalCaches = new Dictionary<IInternalBag, Delegate>();
 
             // get all types and add into typeCache
-            var predicator = default(Func<Type, bool>);
+            var predicator = default(Func<System.Type, bool>);
             switch (s_HowToTreat)
             {
                 case TreatmentMode.Interface:
@@ -154,15 +154,15 @@ namespace Viyrex.RuntimeServices.Callable
                 default:
                     break;
             }
-            var asms = AppDomain.CurrentDomain.GetAssemblies();
 
-            var types = asms.SelectMany(t => t.GetTypes()).Where(predicator);
+            var types = Callable.Types.List.Where(predicator);
             this.Types = types.ToArray();
 
             var ctors = types.SelectMany(c => c.GetConstructors(ALL));
             foreach (var ctor in ctors)
             {
-                this._caches.Add(new Bag(ctor), this.BuildWith(ctor));
+                if (this.TryBuildWith(ctor, out var dele))
+                    this.InternalCaches.Add(new Bag(ctor), dele);
             }
         }
 
@@ -178,19 +178,16 @@ namespace Viyrex.RuntimeServices.Callable
 
         private const TypeAttributes PUBLIC_SEALED = TypeAttributes.Sealed | TypeAttributes.Public;
 
-        private static readonly Type s_GenericType;
+        private static readonly System.Type s_GenericType;
 
         private static readonly TreatmentMode s_HowToTreat;
 
         private static readonly object s_locker = new object();
 
         private static volatile Constraint<TConstraint> s_instance;
-
-        private readonly Dictionary<Bag, Delegate> _caches;
-
         private readonly ModuleBuilder _module;
 
-        private readonly Type _multicastDelegete, _object, _intPtr;
+        private readonly System.Type _multicastDelegete, _object, _intPtr;
 
         #endregion Fields
 
@@ -212,19 +209,21 @@ namespace Viyrex.RuntimeServices.Callable
         }
 
         /// <summary>
-        /// 取得 <typeparamref name="TConstraint"/> 類型的 <see cref="Type"/> 物件
+        /// 取得 <typeparamref name="TConstraint"/> 類型的 <see cref="System.Type"/> 物件
         /// </summary>
         public Type ConstraintType => s_GenericType;
 
         /// <summary>
-        /// 對 <typeparamref name="TConstraint"/> 類型的處理方式
+        /// 取得所有實作或繼承 <typeparamref name="TConstraint"/> 類型的 <see cref="System.Type"/> 物件
         /// </summary>
-        public TreatmentMode TreatmentMode => s_HowToTreat;
+        public System.Type[] Types { get; }
 
-        /// <summary>
-        /// 取得所有實作或繼承 <typeparamref name="TConstraint"/> 類型的 <see cref="Type"/> 物件
-        /// </summary>
-        public Type[] Types { get; }
+        internal Dictionary<IInternalBag, Delegate> InternalCaches { get; }
+
+        internal IInternalBag CreateNewBag(System.Type @return, System.Type[] arguments)
+        {
+            return new Bag(@return, arguments);
+        }
 
         #endregion Properties
 
@@ -237,7 +236,7 @@ namespace Viyrex.RuntimeServices.Callable
         /// <param name="delegateReturnType">欲製作之動態 <see langword="delegate"/> 類型的回傳類型</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Type PlainMake(ParameterInfo[] delegateParameters, Type delegateReturnType)
+        internal Type PlainMake(ParameterInfo[] delegateParameters, System.Type delegateReturnType)
         {
             var delegateTypeName = $"#{Guid.NewGuid()}";
 

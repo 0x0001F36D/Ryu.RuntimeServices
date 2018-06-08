@@ -5,6 +5,7 @@
 namespace Viyrex.RuntimeServices.Callable
 {
     using System;
+    using System.Diagnostics;
     using System.Reflection;
     using System.Reflection.Emit;
     using Internal;
@@ -20,8 +21,9 @@ namespace Viyrex.RuntimeServices.Callable
 
         #region Methods
 
-        internal Delegate BuildWith(ConstructorInfo ctor)
+        internal bool TryBuildWith(ConstructorInfo ctor, out Delegate @delegate)
         {
+            Debug.WriteLine($"Building delegate: {ctor} from: {ctor.DeclaringType}");
             var parameters = ctor.GetParameters();
             var deletype = this.PlainMake(parameters, ctor.DeclaringType);
 
@@ -63,8 +65,17 @@ namespace Viyrex.RuntimeServices.Callable
             // return reg;
             il.Emit(Ret);
 
-            var dele = dm.CreateDelegate(deletype);
-            return dele;
+            try
+            {
+                @delegate = dm.CreateDelegate(deletype);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"### Build failed: {e.Message}");
+                @delegate = default;
+                return false;
+            }
         }
 
         #endregion Methods

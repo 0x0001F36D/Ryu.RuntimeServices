@@ -36,24 +36,27 @@
 
     #### Strict 模式
     \<??\> 必須是實作或繼承自 \<?\> 介面或類別的對象或子類別<br>
-    *Strict* 泛型函數會回傳一個 *LockedReturn* 結構用於在執行期建構動態 \<??\> 物件<br>
-    你可以透過結構內的 *New()* 泛型函數(強型別)做為建構物件的代理建構子函數以在執行期建立物件<br>
-    ***注意 : New() 是一個強型別函數，若建構子引數型態為 object ，請將你的參數轉型成 object 型態***
+    會透過 \<??\> 及參數鎖定回傳的類型
+    ***注意 : New() 及其多載函數是一個強型別函數，若建構子引數型態為 object ，請將你的參數轉型成 object 型態***
     ```csharp
-    var obj = collector.Strict<??>().New(...); 
+    var strict = collector.Strict<??>();
+    var obj = strict.New(...); 
     ```
     
     <br>
     
     #### Fuzzy 模式
-    透過 *Fuzzy()* 函數的參數群推斷建構子引數相同之類型並透過 *NewAll()* 函數建立多個物件實體
+    透過參數群推斷建構子引數相同之類型並透過 *NewAll()* 函數建立多個物件實體
     ```csharp
-    var objs = collector.Fuzzy(...).NewAll();
+    var fuzzy = collector.Fuzzy(...);
+    var objs = fuzzy.NewAll();
     ```
     <br>
 
 - ## 歷史
-  - v2-1: <br>
+  - v2.2: <br>
+    整理程式碼
+  - v2.1: <br>
     整理程式碼，實作 *Fuzzy* 模式，可透過參數模糊匹配物件
   - v2: <br>
     將 *CallSite\<T>* 類別移除，改用 *Constraint\<TConstraint>* 類別作為主類別<br>

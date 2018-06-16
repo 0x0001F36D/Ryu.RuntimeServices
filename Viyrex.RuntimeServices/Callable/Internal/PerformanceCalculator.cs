@@ -13,9 +13,8 @@ namespace Viyrex.RuntimeServices.Callable.Internal
 
         static PerformanceCalculator()
         {
-#pragma warning disable 642
-            using (StartNew) ;
-#pragma warning restore
+            using (var v = new PerformanceCalculator(null))
+                v.Start();
         }
 
         public PerformanceCalculator(EventHandler<TimeSpan> onStop)

@@ -10,14 +10,16 @@ namespace Viyrex.RuntimeServices.Callable
     using System.Linq;
     using System.Reflection;
 
+    /// <summary>
+    /// 公開類型集合
+    /// </summary>
     public sealed class Types : IReadOnlyList<Type>
     {
         #region Constructors
 
         private Types()
         {
-            var list = this.GetAllTypes();
-            this._types = list.ToDictionary(x => x.FullName);
+            this._types = this.GetAllTypes().ToList();
         }
 
         #endregion Constructors
@@ -26,7 +28,7 @@ namespace Viyrex.RuntimeServices.Callable
 
         private static volatile Types s_instance;
         private static object s_locker = new object();
-        private readonly Dictionary<string, Type> _types;
+        private readonly List<Type> _types;
 
         #endregion Fields
 
@@ -50,22 +52,15 @@ namespace Viyrex.RuntimeServices.Callable
 
         #region Indexers
 
-        public Type this[string name]
-        {
-            get
-            {
-                if (this._types.TryGetValue(name, out var t))
-                    return t;
-
-                return default;
-            }
-        }
-
+        /// <summary>
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public Type[] this[Predicate<Type> predicate]
         {
             get
             {
-                var types = from t in this._types.Values
+                var types = from t in this._types
                             where predicate(t)
                             select t;
 
@@ -79,7 +74,7 @@ namespace Viyrex.RuntimeServices.Callable
             {
                 if (index >= this._types.Count || index <= -1)
                     return default;
-                return this._types.Values.ElementAt(index);
+                return this._types.ElementAt(index);
             }
         }
 
@@ -87,7 +82,7 @@ namespace Viyrex.RuntimeServices.Callable
 
         #region Methods
 
-        IEnumerator<Type> IEnumerable<Type>.GetEnumerator() => this._types.Values.GetEnumerator();
+        IEnumerator<Type> IEnumerable<Type>.GetEnumerator() => this._types.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this._types.GetEnumerator();
 
@@ -99,7 +94,9 @@ namespace Viyrex.RuntimeServices.Callable
                 {
                     try
                     {
-                        exportedTypes = assembly.GetExportedTypes();
+                        exportedTypes = assembly.GetTypes();
+
+                        //exportedTypes = assembly.GetExportedTypes();
                     }
                     catch (ReflectionTypeLoadException e)
                     {

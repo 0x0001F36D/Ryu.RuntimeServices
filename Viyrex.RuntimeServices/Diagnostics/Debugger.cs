@@ -8,8 +8,10 @@
 namespace Viyrex.RuntimeServices.Diagnostics
 {
     using System;
+    using System.Linq;
     using Callable;
     using MockModels;
+    using Callable.Internal;
 
     internal static partial class Debugger
     {
@@ -17,14 +19,6 @@ namespace Viyrex.RuntimeServices.Diagnostics
 
         private static void Main(string[] args)
         {
-            var s = Types.List;
-            foreach (var item in s)
-            {
-                Console.WriteLine(item);
-            }
-            Console.ReadKey();
-            return;
-
             // collected types: T1, T2, T3
             var collector = Constraint<ITestInterface>.Collector;
 
@@ -48,6 +42,9 @@ namespace Viyrex.RuntimeServices.Diagnostics
             // output: T3-2: 5.2 | (int) 66 return type: ITestInterface[] { T3, T3 }
             var fuzzy_2 = collector.Fuzzy(5.2, 66).NewAll();
 
+            var lz = collector.Fuzzy().Lazy<T2>();
+            Console.ReadKey();
+            Console.WriteLine(lz.Instance);
             Console.ReadKey();
         }
 

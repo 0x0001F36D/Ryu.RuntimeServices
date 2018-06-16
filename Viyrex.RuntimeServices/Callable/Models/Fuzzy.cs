@@ -9,6 +9,7 @@ namespace Viyrex.RuntimeServices.Callable.Models
     using System.Linq;
     using System.Reflection;
     using Internal;
+    using Exceptions;
 
     /// <summary>
     /// 模糊模式 (模糊定型)
@@ -24,7 +25,7 @@ namespace Viyrex.RuntimeServices.Callable.Models
             this._Args = args;
             this._Constraints = new List<Delegate>();
 
-            var argsts = args is null ? Type.EmptyTypes : args.GetArgsType();
+            var argsts = args is null ? Type.EmptyTypes : args.GetTypes();
 
             foreach (var ctor in this.Collector.InternalCaches.Values)
             {
@@ -54,10 +55,40 @@ namespace Viyrex.RuntimeServices.Callable.Models
         #region Methods
 
         /// <summary>
+        /// 產生 <typeparamref name="TResult"/> 類型的延遲引動物件
+        /// </summary>
+        /// <typeparam name="TResult">結果類型</typeparam>
+        /// <returns></returns>
+        /// <exception cref="ConstructorNotFoundException"/>
+        public LazyObject<TResult> Lazy<TResult>() where TResult : TConstraint
+        {
+            foreach (var item in this._Constraints)
+            {
+                if (item.Method.ReturnType == typeof(TResult))
+                    return new LazyObject<TResult>(item, this._Args);
+            }
+            throw ConstructorNotFoundException.Instance;
+        }
+
+        /// <summary>
+        /// 產生所有 <typeparamref name="TResult"/> 類型的延遲引動物件集合
+        /// </summary>
+        /// <typeparam name="TResult">結果類型</typeparam>
+        /// <returns></returns>
+        public IEnumerable<LazyObject<TConstraint>> LazyAll()
+        {
+            foreach (var item in this._Constraints)
+            {
+                yield return new LazyObject<TConstraint>(item, this._Args);
+            }
+        }
+
+        /// <summary>
         /// 初始化 <typeparamref name="TResult"/> 類型的物件實體
         /// </summary>
         /// <typeparam name="TResult">結果類型</typeparam>
         /// <returns></returns>
+        /// <exception cref="ConstructorNotFoundException"/>
         public TResult New<TResult>() where TResult : TConstraint
         {
             foreach (var item in this._Constraints)
@@ -66,29 +97,19 @@ namespace Viyrex.RuntimeServices.Callable.Models
                     return (TResult)item.DynamicInvoke(this._Args);
             }
 
-            return default;
+            throw ConstructorNotFoundException.Instance;
         }
 
         /// <summary>
         /// 初始化所有 <typeparamref name="TConstraint"/> 類型的物件實體
         /// </summary>
         /// <returns></returns>
-        public TConstraint[] NewAll()
+        public IEnumerable<TConstraint> NewAll()
         {
-            return this._Constraints.Select(x => (TConstraint)x.DynamicInvoke(this._Args)).ToArray();
-        }
-
-        public TResult Single<TResult>(Predicate<Delegate> predicate) where TResult : TConstraint
-        {
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            foreach (var item in this._Constraints)
+            foreach (var dele in this._Constraints)
             {
-                if (predicate(item))
-                    return (TResult)item.DynamicInvoke(this._Args);
+                yield return (TConstraint)dele.DynamicInvoke(this._Args);
             }
-            return default;
         }
 
         private bool TypeComparer(MethodInfo method, Type[] parameters)

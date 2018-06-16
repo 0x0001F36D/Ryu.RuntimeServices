@@ -32,7 +32,7 @@ namespace Viyrex.RuntimeServices.Callable.Internal
             return array;
         }
 
-        public static Type[] GetArgsType(this object[] args)
+        public static Type[] GetTypes(this object[] args)
         {
             var array = new Type[args.Length];
             for (int i = 0; i < array.Length; i++)

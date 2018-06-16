@@ -1,4 +1,4 @@
-﻿### *Constraint\<T>*
+﻿### *Constraint&lt;T&gt;*
 
 - ## 用途
     高效能的動態物件實體產生器 (*emit* + *delegate cache*)
@@ -28,7 +28,7 @@
     
 - ## 用法
   
-    \<?\> 必須是 介面、抽象類別或者類別 等可被實作或繼承的結構
+    $<$?$>$ 必須是 介面、抽象類別或者類別 等可被實作或繼承的結構
     ```csharp
     var collector = Constraint<?>.Collector;
     ```
@@ -55,7 +55,7 @@
 
 - ## 歷史
   - v2.2: <br>
-    整理程式碼，新增 *Types* 類別
+    整理程式碼，新增 *Types* 類別，加入nuget包
   - v2.1: <br>
     整理程式碼，實作 *Fuzzy* 模式，可透過參數模糊匹配物件
   - v2: <br>

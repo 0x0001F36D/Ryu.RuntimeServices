@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{4C9D25F8-CFB4-4D58-BC06-5E9D0C7D4FA5}"
 	ProjectSection(SolutionItems) = preProject
 		Readme.md = Readme.md
+		Viyrex.RuntimeServices.2.2.63.nupkg = Viyrex.RuntimeServices.2.2.63.nupkg
 	EndProjectSection
 EndProject
 Global

@@ -11,16 +11,30 @@ namespace Viyrex.RuntimeService.DLR
     using System.Linq.Expressions;
     using System.Runtime.Serialization;
 
+    public interface IAtomOperation
+    {
+        bool Exist(string name);
+        bool Create<T>(string name, T value);
+        bool Update<T>(string name, T value);
+        bool Retrieve<T>(string name, out T value);
+        bool Delete(string name);
+    }
+
 
     /// <summary>
     /// 提供一般物件至 DLR 物件的動態轉換
     /// </summary>
     [Serializable]
-    public class Synthesis : IDynamicMetaObjectProvider, ISerializable, INotifyPropertyChanged, IEnumerable<KeyValuePair<string, object>>
+    public class Synthesis : IDynamicMetaObjectProvider, ISerializable, INotifyPropertyChanged, IEnumerable<KeyValuePair<string, object>>, IAtomOperation
     {
         public static implicit operator Synthesis(Dictionary<string, object> dictionary)
         {
             return new Synthesis(dictionary);
+        }
+
+        public Synthesis(out IAtomOperation @this): this()
+        {
+            @this = this;
         }
 
         /// <summary>

@@ -4,12 +4,13 @@
 
 namespace Viyrex.RuntimeServices.Callable.Models
 {
+    using Exceptions;
+
+    using Internal;
+
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
-    using Internal;
-    using Exceptions;
 
     /// <summary>
     /// 模糊模式 (模糊定型)

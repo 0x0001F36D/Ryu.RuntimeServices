@@ -7,8 +7,8 @@
     <ProjectGuid>{41ECC847-7A52-4F04-8890-530EBBB1A67C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Viyrex.RuntimeService.DLR</RootNamespace>
-    <AssemblyName>Viyrex.RuntimeService.DLR</AssemblyName>
+    <RootNamespace>Viyrex.RuntimeServices.DLR</RootNamespace>
+    <AssemblyName>Viyrex.RuntimeServices.DLR</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

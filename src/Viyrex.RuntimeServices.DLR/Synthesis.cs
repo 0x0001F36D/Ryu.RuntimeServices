@@ -1,25 +1,86 @@
-﻿
-namespace Viyrex.RuntimeService.DLR
-{
+﻿// Author: Viyrex(aka Yuyu)
+// Contact: mailto:viyrex.aka.yuyu@gmail.com
+// Github: https://github.com/0x0001F36D
 
+namespace Viyrex.RuntimeServices.DLR
+{
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Dynamic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Reflection;
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// 可對屬性做原子化操作
+    /// </summary>
     public interface IAtomicity
     {
         bool Exist(string name);
+
         bool Create<T>(string name, T value);
+
         bool Update<T>(string name, T value);
+
         bool Retrieve<T>(string name, out T value);
+
         bool Delete(string name);
     }
 
+    public static class Extension
+    {
+        public delegate object MemberSelector<T>(T target);
+
+        public static dynamic ToSynthesis<T>(this T target, params Expression<MemberSelector<T>>[] selectors)
+        {
+            var type = typeof(T);
+            var items = new Dictionary<string, object>();
+            foreach (var selector in selectors)
+            {
+                var body = selector.Body;
+                // process default(struct)
+                if (body is UnaryExpression ue)
+                {
+                    body = ue.Operand;
+                }
+                // end process
+
+                if (body is MemberExpression me)
+                {
+                    var name = default(string);
+                    var value = default(object);
+                    switch (me.Member)
+                    {
+                        case PropertyInfo property:
+                            {
+                                name = property.Name;
+                                value = property.GetValue(target);
+                                break;
+                            }
+                        case FieldInfo field:
+                            {
+                                name = field.Name;
+                                value = field.GetValue(target);
+                                break;
+                            }
+                        default:
+                            throw new NotSupportedException(selector.ToString());
+                    }
+                    items[name] = value;
+                }
+                
+            }
+
+
+            return new Synthesis(items);
+        }
+
+
+    }
 
     /// <summary>
     /// 提供一般物件至 DLR 物件的動態轉換
@@ -27,12 +88,8 @@ namespace Viyrex.RuntimeService.DLR
     [Serializable]
     public class Synthesis : IDynamicMetaObjectProvider, ISerializable, INotifyPropertyChanged, IEnumerable<KeyValuePair<string, object>>, IAtomicity
     {
-        public static implicit operator Synthesis(Dictionary<string, object> dictionary)
-        {
-            return new Synthesis(dictionary);
-        }
 
-        public Synthesis(out IAtomicity @this): this()
+        public Synthesis(out IAtomicity @this) : this()
         {
             @this = this;
         }
@@ -42,7 +99,6 @@ namespace Viyrex.RuntimeService.DLR
         /// </summary>
         public Synthesis() : this(null)
         {
-
         }
 
         /// <summary>
@@ -137,23 +193,28 @@ namespace Viyrex.RuntimeService.DLR
 
             internal DLRMetaObject(IDynamicMetaObjectProvider provider, Expression exp, BindingRestrictions restrictions, object value) : base(exp, restrictions, value) => this._metaObject = provider.GetMetaObject(Expression.Constant(provider));
 
-
             public override DynamicMetaObject BindConvert(ConvertBinder binder) => this._metaObject.BindConvert(binder);
+
             public override DynamicMetaObject BindCreateInstance(CreateInstanceBinder binder, DynamicMetaObject[] args) => this._metaObject.BindCreateInstance(binder, args);
 
             public override DynamicMetaObject BindDeleteIndex(DeleteIndexBinder binder, DynamicMetaObject[] indexes) => this._metaObject.BindDeleteIndex(binder, indexes);
+
             public override DynamicMetaObject BindGetIndex(GetIndexBinder binder, DynamicMetaObject[] indexes) => this._metaObject.BindGetIndex(binder, indexes);
+
             public override DynamicMetaObject BindSetIndex(SetIndexBinder binder, DynamicMetaObject[] indexes, DynamicMetaObject value) => this._metaObject.BindSetIndex(binder, indexes, value);
 
             public override DynamicMetaObject BindGetMember(GetMemberBinder binder) => this._metaObject.BindGetMember(binder);
+
             public override DynamicMetaObject BindSetMember(SetMemberBinder binder, DynamicMetaObject value) => this._metaObject.BindSetMember(binder, value);
+
             public override DynamicMetaObject BindDeleteMember(DeleteMemberBinder binder) => this._metaObject.BindDeleteMember(binder);
 
-
             public override DynamicMetaObject BindInvoke(InvokeBinder binder, DynamicMetaObject[] args) => this._metaObject.BindInvoke(binder, args);
+
             public override DynamicMetaObject BindInvokeMember(InvokeMemberBinder binder, DynamicMetaObject[] args) => this._metaObject.BindInvokeMember(binder, args);
 
             public override DynamicMetaObject BindUnaryOperation(UnaryOperationBinder binder) => this._metaObject.BindUnaryOperation(binder);
+
             public override DynamicMetaObject BindBinaryOperation(BinaryOperationBinder binder, DynamicMetaObject arg) => this._metaObject.BindBinaryOperation(binder, arg);
 
             public override IEnumerable<string> GetDynamicMemberNames() => this._metaObject.GetDynamicMemberNames();
@@ -162,8 +223,6 @@ namespace Viyrex.RuntimeService.DLR
         [Serializable]
         private sealed class DLRFields : DynamicObject, INotifyPropertyChanged, IDictionary<string, object>, ISerializable
         {
-
-
             private readonly Dictionary<string, object> _fields;
 
             internal DLRFields(Dictionary<string, object> fields)
@@ -196,21 +255,27 @@ namespace Viyrex.RuntimeService.DLR
             public event PropertyChangedEventHandler PropertyChanged;
 
             public bool ContainsKey(string key) => this._fields.ContainsKey(key);
+
             public void Add(string key, object value) => this._fields.Add(key, value);
+
             public bool Remove(string key) => this._fields.Remove(key);
+
             public bool TryGetValue(string key, out object value) => this._fields.TryGetValue(key, out value);
 
             public object this[string key] { get => this._fields[key]; set => this._fields[key] = value; }
-
 
             public ICollection<string> Keys => this._fields.Keys;
 
             public ICollection<object> Values => this._fields.Values;
 
             public void Add(KeyValuePair<string, object> item) => ((IDictionary<string, object>)this._fields).Add(item);
+
             public void Clear() => this._fields.Clear();
+
             public bool Contains(KeyValuePair<string, object> item) => this._fields.Contains(item);
+
             public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex) => ((IDictionary<string, object>)this._fields).CopyTo(array, arrayIndex);
+
             public bool Remove(KeyValuePair<string, object> item) => ((IDictionary<string, object>)this._fields).Remove(item);
 
             public int Count => this._fields.Count;
@@ -218,10 +283,14 @@ namespace Viyrex.RuntimeService.DLR
             public bool IsReadOnly => ((IDictionary<string, object>)this._fields).IsReadOnly;
 
             public IEnumerator<KeyValuePair<string, object>> GetEnumerator() => this._fields.GetEnumerator();
-            IEnumerator IEnumerable.GetEnumerator() => this._fields.GetEnumerator();
-            public void GetObjectData(SerializationInfo info, StreamingContext context) => this._fields.GetObjectData(info, context);
 
+            IEnumerator IEnumerable.GetEnumerator() => this._fields.GetEnumerator();
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context) => this._fields.GetObjectData(info, context);
         }
+
+        protected dynamic This => this;
+
 
         private readonly IDynamicMetaObjectProvider _provider;
 
@@ -243,10 +312,9 @@ namespace Viyrex.RuntimeService.DLR
             }
         }
 
-
         [EditorBrowsable(EditorBrowsableState.Never)]
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => ((ISerializable)this._provider).GetObjectData(info, context);
-        
+
         [EditorBrowsable(EditorBrowsableState.Never)]
         IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator() => ((IDictionary<string, object>)this._provider).GetEnumerator();
 
@@ -256,6 +324,4 @@ namespace Viyrex.RuntimeService.DLR
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void Add(string name, object value) => this.Create(name, value);
     }
-
-
 }

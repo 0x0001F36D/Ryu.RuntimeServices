@@ -1,11 +1,15 @@
-﻿
+﻿// Author: Viyrex(aka Yuyu)
+// Contact: mailto:viyrex.aka.yuyu@gmail.com
+// Github: https://github.com/0x0001F36D
 
-namespace Viyrex.RuntimeService.Tests.Callable
+namespace Viyrex.RuntimeServices.Tests.Callable
 {
     using NUnit.Framework;
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Viyrex.RuntimeServices.Callable;
     using Viyrex.RuntimeServices.Tests.Callable.MockModels;
 
@@ -15,11 +19,10 @@ namespace Viyrex.RuntimeService.Tests.Callable
         [TestCase]
         public void TestMethod1()
         {
-
             // pool types: T1, T2, T3
             var pool = Constraint<ITestInterface>.Pool;
 
-            var types = new []
+            var types = new[]
             {
                 typeof(T1),
                 typeof(T2),
@@ -29,7 +32,7 @@ namespace Viyrex.RuntimeService.Tests.Callable
             var set = new HashSet<Type>(types);
             pool.Types.ToList().ForEach(type => Assert.IsTrue(set.Remove(type)));
             Assert.True(set.Count == 0);
-            
+
             // output: T1-0 return type: T1
             var strict_1 = pool.Strict<T1>().New();
             Assert.AreNotEqual(strict_1, new T1());
@@ -52,8 +55,6 @@ namespace Viyrex.RuntimeService.Tests.Callable
             var fuzzy_2 = pool.Fuzzy(5.2, 66).NewAll();
 
             var lz = pool.Fuzzy().Lazy<T2>();
-
-
         }
     }
 }

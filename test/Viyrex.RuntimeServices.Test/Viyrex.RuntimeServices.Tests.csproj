@@ -9,8 +9,8 @@
     <ProjectGuid>{9E3D1F97-9771-4760-BC5E-393444BBCCA1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Viyrex.RuntimeService.Test</RootNamespace>
-    <AssemblyName>Viyrex.RuntimeService.Tests</AssemblyName>
+    <RootNamespace>Viyrex.RuntimeServices.Test</RootNamespace>
+    <AssemblyName>Viyrex.RuntimeServices.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -30,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,6 +39,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -60,13 +62,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Viyrex.RuntimeService.DLR\Viyrex.RuntimeService.DLR.csproj">
-      <Project>{41ECC847-7A52-4F04-8890-530EBBB1A67C}</Project>
-      <Name>Viyrex.RuntimeService.DLR</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Viyrex.RuntimeServices.Callable\Viyrex.RuntimeServices.Callable.csproj">
       <Project>{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}</Project>
       <Name>Viyrex.RuntimeServices.Callable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Viyrex.RuntimeServices.DLR\Viyrex.RuntimeServices.DLR.csproj">
+      <Project>{41ecc847-7a52-4f04-8890-530ebbb1a67c}</Project>
+      <Name>Viyrex.RuntimeServices.DLR</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

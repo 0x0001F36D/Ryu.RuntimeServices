@@ -6,6 +6,10 @@
 
 namespace Viyrex.RuntimeServices.Callable
 {
+    using Exceptions;
+
+    using Internal;
+
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -13,8 +17,7 @@ namespace Viyrex.RuntimeServices.Callable
     using System.Reflection;
     using System.Reflection.Emit;
     using System.Runtime.CompilerServices;
-    using Exceptions;
-    using Internal;
+
     using static Internal.SupportUtil;
 
     /// <summary>
@@ -194,7 +197,7 @@ namespace Viyrex.RuntimeServices.Callable
         #region Properties
 
         /// <summary>
-        /// 提供一組 Collector 實體做為 <typeparamref name="TConstraint"/> 類型/介面的集合器
+        /// 提供一組做為 <typeparamref name="TConstraint"/> 類型/介面的委派物件集區
         /// </summary>
         public static Constraint<TConstraint> Pool
         {

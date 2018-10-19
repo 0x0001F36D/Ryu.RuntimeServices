@@ -5,6 +5,8 @@
 namespace Viyrex.RuntimeServices.Callable.Internal
 {
     using System;
+    using System.Dynamic;
+    using System.Linq;
 
     internal static class SupportUtil
     {
@@ -33,6 +35,9 @@ namespace Viyrex.RuntimeServices.Callable.Internal
             if (type.IsSealed)
                 return TreatmentMode.NotTreated;
 
+            if (type.GetInterfaces().Contains(typeof(IDynamicMetaObjectProvider)))
+                return TreatmentMode.NotTreated;
+
             if (type.IsInterface)
                 return TreatmentMode.Interface;
             if (type.IsAbstract)
@@ -46,6 +51,8 @@ namespace Viyrex.RuntimeServices.Callable.Internal
                     return TreatmentMode.NotTreated;
                 return TreatmentMode.Class;
             }
+
+
 
             return TreatmentMode.NotTreated;
         }

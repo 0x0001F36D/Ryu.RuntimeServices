@@ -4,11 +4,13 @@
 
 namespace Viyrex.RuntimeServices.Callable
 {
+    using Internal;
+
     using System;
     using System.Diagnostics;
     using System.Reflection;
     using System.Reflection.Emit;
-    using Internal;
+
     using static System.Reflection.Emit.OpCodes;
 
     partial class Constraint<TConstraint>

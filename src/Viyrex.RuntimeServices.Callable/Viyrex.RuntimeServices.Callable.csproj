@@ -65,26 +65,26 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Callable\Constraint.Core.cs" />
-    <Compile Include="Callable\Constraint.Methods.cs" />
-    <Compile Include="Callable\Constraint.Emit.cs" />
-    <Compile Include="Callable\Exceptions\ConstructorNotFoundException.cs" />
-    <Compile Include="Callable\Exceptions\GenericArgumentException.cs" />
-    <Compile Include="Callable\Internal\IConstraintCollector.cs" />
-    <Compile Include="Callable\Internal\IInternalBag.cs" />
-    <Compile Include="Callable\Internal\PerformanceCalculator.cs" />
-    <Compile Include="Callable\Models\Fuzzy.cs" />
-    <Compile Include="Callable\Models\LazyObject.cs" />
-    <Compile Include="Callable\Models\Strict.cs" />
-    <Compile Include="Callable\Types.cs" />
+    <Compile Include="Constraint.Core.cs" />
+    <Compile Include="Constraint.Emit.cs" />
+    <Compile Include="Constraint.Methods.cs" />
     <Compile Include="Diagnostics\Debugger.cs" />
-    <Compile Include="Callable\Internal\InternalHelper.cs" />
     <Compile Include="Diagnostics\MockModels\ITestInterface.cs" />
     <Compile Include="Diagnostics\MockModels\T1.cs" />
     <Compile Include="Diagnostics\MockModels\T3.cs" />
     <Compile Include="Diagnostics\MockModels\T2.cs" />
+    <Compile Include="Exceptions\ConstructorNotFoundException.cs" />
+    <Compile Include="Exceptions\GenericArgumentException.cs" />
+    <Compile Include="Internal\IConstraintCollector.cs" />
+    <Compile Include="Internal\IInternalBag.cs" />
+    <Compile Include="Internal\InternalHelper.cs" />
+    <Compile Include="Internal\PerformanceCalculator.cs" />
+    <Compile Include="Internal\SupportUtil.cs" />
+    <Compile Include="Models\Fuzzy.cs" />
+    <Compile Include="Models\LazyObject.cs" />
+    <Compile Include="Models\Strict.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Callable\Internal\SupportUtil.cs" />
+    <Compile Include="Types.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

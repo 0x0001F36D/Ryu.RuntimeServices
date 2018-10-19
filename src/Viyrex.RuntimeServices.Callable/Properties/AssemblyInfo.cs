@@ -4,8 +4,8 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Viyrex.RuntimeServices")]
-[assembly: AssemblyProduct("Viyrex.RuntimeServices")]
+[assembly: AssemblyTitle("Viyrex.RuntimeServices.Callable")]
+[assembly: AssemblyProduct("Viyrex.RuntimeServices.Callable")]
 [assembly: AssemblyCopyright("Copyright © Viyrex(aka Yuyu) 2018")]
 [assembly: ComVisible(false)]
 [assembly: Guid("ef28690e-268a-4b0e-8a5e-bf0eb4e4f978")]

@@ -196,7 +196,7 @@ namespace Viyrex.RuntimeServices.Callable
         /// <summary>
         /// 提供一組 Collector 實體做為 <typeparamref name="TConstraint"/> 類型/介面的集合器
         /// </summary>
-        public static Constraint<TConstraint> Collector
+        public static Constraint<TConstraint> Pool
         {
             get
             {

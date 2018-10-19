@@ -11,7 +11,7 @@ namespace Viyrex.RuntimeService.DLR
     using System.Linq.Expressions;
     using System.Runtime.Serialization;
 
-    public interface IAtomOperation
+    public interface IAtomicity
     {
         bool Exist(string name);
         bool Create<T>(string name, T value);
@@ -25,14 +25,14 @@ namespace Viyrex.RuntimeService.DLR
     /// 提供一般物件至 DLR 物件的動態轉換
     /// </summary>
     [Serializable]
-    public class Synthesis : IDynamicMetaObjectProvider, ISerializable, INotifyPropertyChanged, IEnumerable<KeyValuePair<string, object>>, IAtomOperation
+    public class Synthesis : IDynamicMetaObjectProvider, ISerializable, INotifyPropertyChanged, IEnumerable<KeyValuePair<string, object>>, IAtomicity
     {
         public static implicit operator Synthesis(Dictionary<string, object> dictionary)
         {
             return new Synthesis(dictionary);
         }
 
-        public Synthesis(out IAtomOperation @this): this()
+        public Synthesis(out IAtomicity @this): this()
         {
             @this = this;
         }

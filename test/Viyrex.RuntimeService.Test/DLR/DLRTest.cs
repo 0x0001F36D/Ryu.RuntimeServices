@@ -46,16 +46,12 @@ namespace Viyrex.RuntimeService.Tests.DLR
 
             syn.Delete("b");
             Assert.IsNull(props.b);
-
-
-
-
         }
 
         [TestCase]
         public void TestSynthesis3()
         {
-            dynamic props = new Synthesis(out var t);
+            dynamic props = new Synthesis(out IAtomicity t);
             t.Create("a", 12);
 
             Assert.AreEqual(props.a, 12);

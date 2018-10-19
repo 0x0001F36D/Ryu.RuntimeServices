@@ -19,11 +19,11 @@ namespace Viyrex.RuntimeServices.Callable
 
     /// <summary>
     /// 提供製作動態 <typeparamref name="TConstraint"/> 物件的支援， 且 <typeparamref name="TConstraint"/>
-    /// 必須是無泛型參數的 <see langword="abstract"/><see langword="class"/>、 <see langword="class"/> 或 <see
+    /// 必須是無泛型參數的 <see langword="abstract"/> <see langword="class"/>、 <see langword="class"/> 或 <see
     /// langword="interface"/> 類型
     /// </summary>
     /// <typeparam name="TConstraint">
-    /// 欲製作實體之類型。 必須是無泛型參數的 <see langword="abstract"/><see langword="class"/>、 <see
+    /// 欲製作實體之類型。 必須是無泛型參數的 <see langword="abstract"/> <see langword="class"/>、 <see
     /// langword="class"/> 或 <see langword="interface"/> 類型
     /// </typeparam>
     /// <exception cref="GenericArgumentException{T}"/>

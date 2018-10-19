@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Viyrex.RuntimeServices</RootNamespace>
-    <AssemblyName>Viyrex.RuntimeServices</AssemblyName>
+    <RootNamespace>Viyrex.RuntimeServices.Callable</RootNamespace>
+    <AssemblyName>Viyrex.RuntimeServices.Callable</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -68,11 +68,6 @@
     <Compile Include="Constraint.Core.cs" />
     <Compile Include="Constraint.Emit.cs" />
     <Compile Include="Constraint.Methods.cs" />
-    <Compile Include="Diagnostics\Debugger.cs" />
-    <Compile Include="Diagnostics\MockModels\ITestInterface.cs" />
-    <Compile Include="Diagnostics\MockModels\T1.cs" />
-    <Compile Include="Diagnostics\MockModels\T3.cs" />
-    <Compile Include="Diagnostics\MockModels\T2.cs" />
     <Compile Include="Exceptions\ConstructorNotFoundException.cs" />
     <Compile Include="Exceptions\GenericArgumentException.cs" />
     <Compile Include="Internal\IConstraintCollector.cs" />

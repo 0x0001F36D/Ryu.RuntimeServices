@@ -1,24 +1,18 @@
-﻿// Author: Viyrex(aka Yuyu)
-// Contact: mailto:viyrex.aka.yuyu@gmail.com
-// Github: https://github.com/0x0001F36D
-#if !DEBUG
-#warning 請在 專案 -> 屬性 -> 輸出類型 更改為 類別庫
-#elif DEBUG
+﻿
 
-namespace Viyrex.RuntimeServices.Diagnostics
+namespace Viyrex.RuntimeService.Tests.Callable
 {
-    using System;
-    using System.Linq;
-    using Callable;
-    using MockModels;
-    using Callable.Internal;
+    using NUnit.Framework;
+    using Viyrex.RuntimeServices.Callable;
+    using Viyrex.RuntimeServices.Tests.Callable.MockModels;
 
-    internal static partial class Debugger
+    [TestFixture]
+    public class CallableTest
     {
-        #region Methods
-
-        private static void Main(string[] args)
+        [TestCase]
+        public void TestMethod1()
         {
+
             // collected types: T1, T2, T3
             var collector = Constraint<ITestInterface>.Collector;
 
@@ -43,13 +37,8 @@ namespace Viyrex.RuntimeServices.Diagnostics
             var fuzzy_2 = collector.Fuzzy(5.2, 66).NewAll();
 
             var lz = collector.Fuzzy().Lazy<T2>();
-            Console.ReadKey();
-            Console.WriteLine(lz.Instance);
-            Console.ReadKey();
-        }
 
-        #endregion Methods
+
+        }
     }
 }
-
-#endif

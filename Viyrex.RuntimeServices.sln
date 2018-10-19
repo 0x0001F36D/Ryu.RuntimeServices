@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viyrex.RuntimeServices.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viyrex.RuntimeServices.DLR", "src\Viyrex.RuntimeServices.DLR\Viyrex.RuntimeServices.DLR.csproj", "{41ECC847-7A52-4F04-8890-530EBBB1A67C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viyrex.RuntimeServices.Debugger", "test\Viyrex.RuntimeServices.Debugger\Viyrex.RuntimeServices.Debugger.csproj", "{A8D040EA-1637-47BD-BD14-F2393026FDE9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,14 +49,6 @@ Global
 		{41ECC847-7A52-4F04-8890-530EBBB1A67C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41ECC847-7A52-4F04-8890-530EBBB1A67C}.Release|x86.ActiveCfg = Release|Any CPU
 		{41ECC847-7A52-4F04-8890-530EBBB1A67C}.Release|x86.Build.0 = Release|Any CPU
-		{A8D040EA-1637-47BD-BD14-F2393026FDE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8D040EA-1637-47BD-BD14-F2393026FDE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8D040EA-1637-47BD-BD14-F2393026FDE9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A8D040EA-1637-47BD-BD14-F2393026FDE9}.Debug|x86.Build.0 = Debug|Any CPU
-		{A8D040EA-1637-47BD-BD14-F2393026FDE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8D040EA-1637-47BD-BD14-F2393026FDE9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8D040EA-1637-47BD-BD14-F2393026FDE9}.Release|x86.ActiveCfg = Release|Any CPU
-		{A8D040EA-1637-47BD-BD14-F2393026FDE9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

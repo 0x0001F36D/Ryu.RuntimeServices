@@ -6,9 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{4C9D25F8-CFB4-4D58-BC06-5E9D0C7D4FA5}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
 		Readme.md = Readme.md
-		Readmex.md = Readmex.md
-		Viyrex.RuntimeServices.2.2.63.nupkg = Viyrex.RuntimeServices.2.2.63.nupkg
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viyrex.RuntimeServices.Callable", "src\Viyrex.RuntimeServices.Callable\Viyrex.RuntimeServices.Callable.csproj", "{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}"

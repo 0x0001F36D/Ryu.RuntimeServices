@@ -4,9 +4,6 @@
 # Debug project
 Viyrex.RuntimeServices.Debugger/
 
-# md
-Readmex.md
-
 # User-specific files
 *.suo
 *.user

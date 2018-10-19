@@ -10,8 +10,8 @@ platform:
 
 configuration:
     - Debug
-    - Release
+    # - Release
 
 branches:
     only:
-      - master
+    - master

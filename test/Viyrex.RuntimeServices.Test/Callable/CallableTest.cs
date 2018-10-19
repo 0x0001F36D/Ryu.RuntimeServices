@@ -2,6 +2,7 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 
+#if DEBUG
 namespace Viyrex.RuntimeServices.Tests.Callable
 {
     using NUnit.Framework;
@@ -12,7 +13,6 @@ namespace Viyrex.RuntimeServices.Tests.Callable
 
     using Viyrex.RuntimeServices.Callable;
     using Viyrex.RuntimeServices.Tests.Callable.MockModels;
-
     [TestFixture]
     public class CallableTest
     {
@@ -58,3 +58,4 @@ namespace Viyrex.RuntimeServices.Tests.Callable
         }
     }
 }
+#endif

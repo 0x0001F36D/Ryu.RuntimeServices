@@ -1,8 +1,10 @@
-
 image: Visual Studio 2017
 
 before_build:
-  - nuget restore 
+    - cmd: >-
+      appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+      appveyor DownloadFile https://raw.githubusercontent.com/appveyor/ci/master/scripts/nuget-restore.cmd
+      nuget-restore -verbosity detailed
 
 platform:
     - x86
@@ -12,7 +14,6 @@ configuration:
     - Debug
     - Release
 
-matrix:
-    fast_finish: true
-
-branches: master
+branches:
+    only:
+      - master

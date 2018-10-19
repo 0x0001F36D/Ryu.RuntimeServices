@@ -4,7 +4,8 @@ before_build:
     - nuget restore
 
 platform:
-    - x86
+    # - x86
+    # - x64
     - Any CPU
 
 configuration:

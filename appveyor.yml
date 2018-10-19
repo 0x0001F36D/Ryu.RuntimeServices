@@ -1,12 +1,7 @@
 image: Visual Studio 2017
 
 before_build:
-    - cmd: >-
-      appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-      
-      appveyor DownloadFile https://raw.githubusercontent.com/appveyor/ci/master/scripts/nuget-restore.cmd
-      
-      nuget-restore -verbosity detailed
+    - nuget restore
 
 platform:
     - x86

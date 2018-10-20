@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{4C
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryu.RuntimeServices", "src\Ryu.RuntimeServices\Ryu.RuntimeServices.csproj", "{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.RuntimeService", "src\Ryu.RuntimeServices\Ryuko.RuntimeService.csproj", "{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryu.RuntimeServices.Tests", "test\Ryu.RuntimeServices.Test\Ryu.RuntimeServices.Tests.csproj", "{9E3D1F97-9771-4760-BC5E-393444BBCCA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.RuntimeServices.Tests", "test\Ryu.RuntimeServices.Test\Ryuko.RuntimeServices.Tests.csproj", "{9E3D1F97-9771-4760-BC5E-393444BBCCA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

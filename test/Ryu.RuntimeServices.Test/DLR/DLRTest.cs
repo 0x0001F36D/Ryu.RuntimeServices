@@ -2,13 +2,13 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 
-namespace Ryu.RuntimeServices.Tests.DLR
+namespace Ryuko.RuntimeServices.Tests.DLR
 {
     using NUnit.Framework;
 
     using System;
 
-    using Ryu.RuntimeServices.DLR;
+    using Ryuko.RuntimeServices.DLR;
 
     [TestFixture]
     public class DLRTest

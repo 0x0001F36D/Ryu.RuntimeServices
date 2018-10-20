@@ -4,7 +4,7 @@
 
 #define NOT_SUPPORT_GENERIC_TYPE
 
-namespace Ryu.RuntimeServices.Callable.Internal
+namespace Ryuko.RuntimeServices.Callable.Internal
 {
     using System;
 

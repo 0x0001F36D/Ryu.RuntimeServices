@@ -4,7 +4,7 @@
 
 #if DEBUG
 
-namespace Ryu.RuntimeServices.Tests.Callable
+namespace Ryuko.RuntimeServices.Tests.Callable
 {
     using NUnit.Framework;
 
@@ -12,8 +12,8 @@ namespace Ryu.RuntimeServices.Tests.Callable
     using System.Collections.Generic;
     using System.Linq;
 
-    using Ryu.RuntimeServices.Callable;
-    using Ryu.RuntimeServices.Tests.Callable.MockModels;
+    using Ryuko.RuntimeServices.Callable;
+    using Ryuko.RuntimeServices.Tests.Callable.MockModels;
 
     [TestFixture] 
     public class CallableTest

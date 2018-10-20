@@ -62,9 +62,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Ryu.RuntimeServices\Ryu.RuntimeServices.csproj">
+    <ProjectReference Include="..\..\src\Ryu.RuntimeServices\Ryuko.RuntimeService.csproj">
       <Project>{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}</Project>
-      <Name>Ryu.RuntimeServices</Name>
+      <Name>Ryuko.RuntimeService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

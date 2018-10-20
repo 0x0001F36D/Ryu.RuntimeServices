@@ -4,10 +4,10 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Ryu.RuntimeServices")]
-[assembly: AssemblyProduct("Ryu.RuntimeServices")]
+[assembly: AssemblyTitle("Ryuko.RuntimeServices")]
+[assembly: AssemblyProduct("Ryuko.RuntimeServices")]
 [assembly: AssemblyCopyright("Copyright © Viyrex(aka Yuyu) 2018")]
 [assembly: ComVisible(false)]
 [assembly: Guid("ef28690e-268a-4b0e-8a5e-bf0eb4e4f978")]
-[assembly: AssemblyVersion("2.22.84.6867")]
-[assembly: AssemblyFileVersion("2018.10.20.0327")]
+[assembly: AssemblyVersion("2.23.85.6867")]
+[assembly: AssemblyFileVersion("2018.10.20.0414")]

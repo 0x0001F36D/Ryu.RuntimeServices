@@ -10,9 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{4C
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.RuntimeService", "src\Ryu.RuntimeServices\Ryuko.RuntimeService.csproj", "{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.RuntimeService", "src\Ryuko.RuntimeServices\Ryuko.RuntimeService.csproj", "{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.RuntimeServices.Tests", "test\Ryu.RuntimeServices.Test\Ryuko.RuntimeServices.Tests.csproj", "{9E3D1F97-9771-4760-BC5E-393444BBCCA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.UnitTests", "test\Ryuko.UnitTests\Ryuko.UnitTests.csproj", "{9E3D1F97-9771-4760-BC5E-393444BBCCA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.Windows", "src\Ryuko.Windows\Ryuko.Windows.csproj", "{42C575E4-4811-4DAF-B6F6-047D42EFE16F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,14 @@ Global
 		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Release|x86.ActiveCfg = Release|Any CPU
 		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Release|x86.Build.0 = Release|Any CPU
+		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Debug|x86.Build.0 = Debug|Any CPU
+		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Release|x86.ActiveCfg = Release|Any CPU
+		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

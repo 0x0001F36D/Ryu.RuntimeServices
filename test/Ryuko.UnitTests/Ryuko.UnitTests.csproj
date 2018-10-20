@@ -9,8 +9,8 @@
     <ProjectGuid>{9E3D1F97-9771-4760-BC5E-393444BBCCA1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Viyrex.RuntimeServices.Test</RootNamespace>
-    <AssemblyName>Viyrex.RuntimeServices.Tests</AssemblyName>
+    <RootNamespace>Ryuko.UnitTests</RootNamespace>
+    <AssemblyName>Ryuko.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,23 +50,24 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Callable\CallableTest.cs" />
-    <Compile Include="Callable\MockModels\ITestInterface.cs" />
-    <Compile Include="Callable\MockModels\T1.cs" />
-    <Compile Include="Callable\MockModels\T2.cs" />
-    <Compile Include="Callable\MockModels\T3.cs" />
-    <Compile Include="DLR\DLRTest.cs" />
+    <Compile Include="RuntimeServices\Callable\CallableTest.cs" />
+    <Compile Include="RuntimeServices\Callable\MockModels\ITestInterface.cs" />
+    <Compile Include="RuntimeServices\Callable\MockModels\T1.cs" />
+    <Compile Include="RuntimeServices\Callable\MockModels\T2.cs" />
+    <Compile Include="RuntimeServices\Callable\MockModels\T3.cs" />
+    <Compile Include="RuntimeServices\DLR\DLRTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Ryu.RuntimeServices\Ryuko.RuntimeService.csproj">
+    <ProjectReference Include="..\..\src\Ryuko.RuntimeServices\Ryuko.RuntimeService.csproj">
       <Project>{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}</Project>
       <Name>Ryuko.RuntimeService</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

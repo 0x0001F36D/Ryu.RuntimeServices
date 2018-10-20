@@ -3,7 +3,7 @@
 // Github: https://github.com/0x0001F36D
 #if DEBUG
 
-namespace Ryuko.RuntimeServices.Tests.Callable.MockModels
+namespace Ryuko.UnitTests.RuntimeServices.Callable.MockModels
 {
     public class T1 : ITestInterface
     {

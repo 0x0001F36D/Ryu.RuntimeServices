@@ -9,6 +9,7 @@ namespace Viyrex.RuntimeServices.Callable
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using CuttingEdge.Conditions;
 
     /// <summary>
     /// 公開類型集合
@@ -60,6 +61,9 @@ namespace Viyrex.RuntimeServices.Callable
         {
             get
             {
+                Condition.Requires(predicate,nameof(predicate))
+                    .IsNotNull();
+
                 var types = from t in this._types
                             where predicate(t)
                             select t;
@@ -72,6 +76,9 @@ namespace Viyrex.RuntimeServices.Callable
         {
             get
             {
+                Condition.Requires(index, nameof(index))
+                    .IsNotLessThan(0);
+
                 if (index >= this._types.Count || index <= -1)
                     return default;
                 return this._types.ElementAt(index);

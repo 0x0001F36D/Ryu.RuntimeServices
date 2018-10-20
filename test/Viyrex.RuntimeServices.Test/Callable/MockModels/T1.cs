@@ -6,6 +6,7 @@
 namespace Viyrex.RuntimeServices.Tests.Callable.MockModels
 {
     using System;
+    using System.Diagnostics;
 
     public class T1 : ITestInterface
     {
@@ -13,7 +14,7 @@ namespace Viyrex.RuntimeServices.Tests.Callable.MockModels
 
         public T1()
         {
-            Console.WriteLine("T1-0");
+            System.Diagnostics.Debug.WriteLine("T1-0");
         }
 
         #endregion Constructors

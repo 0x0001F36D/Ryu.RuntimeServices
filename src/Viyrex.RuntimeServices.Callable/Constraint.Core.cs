@@ -118,31 +118,14 @@ namespace Viyrex.RuntimeServices.Callable
 
         #region Constructors
 
-        static Constraint()
-        {
-            s_GenericType = typeof(TConstraint);
-            s_HowToTreat = IsSupported(s_GenericType);
-
-            if (s_HowToTreat == TreatmentMode.NotTreated)
-                throw new GenericArgumentException<TConstraint>();
-
-            SupportedGenericType();
-        }
+        
 
         private Constraint()
         {
-            this._multicastDelegete = typeof(MulticastDelegate);
-            this._object = typeof(object);
-            this._intPtr = typeof(IntPtr);
-
-            var assembly = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("#"), AssemblyBuilderAccess.RunAndCollect);
-            this._module = assembly.DefineDynamicModule(Guid.NewGuid().ToString());
-
-            this.InternalCaches = new Dictionary<IInternalBag, Delegate>();
-
-            // get all types and add into typeCache
+            this.ConstraintType = typeof(TConstraint);
+            this._howToTreat = IsSupported(this.ConstraintType);
             var predicator = default(Func<System.Type, bool>);
-            switch (s_HowToTreat)
+            switch (this._howToTreat)
             {
                 case TreatmentMode.Interface:
                     predicator = (type) => type.GetInterfaces().Any(v => v == this.ConstraintType);
@@ -153,11 +136,23 @@ namespace Viyrex.RuntimeServices.Callable
                     predicator = (type) => type.IsSubclassOf(this.ConstraintType);
                     break;
 
-                case TreatmentMode.NotTreated:
                 default:
-                    break;
+                    this.SupportedGenericType();
+                    throw new GenericArgumentException<TConstraint>();
             }
 
+
+
+            this._multicastDelegete = typeof(MulticastDelegate);
+            this._object = typeof(object);
+            this._intPtr = typeof(IntPtr);
+
+            var assembly = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("#"), AssemblyBuilderAccess.RunAndCollect);
+            this._module = assembly.DefineDynamicModule(Guid.NewGuid().ToString());
+
+            this.InternalCaches = new Dictionary<IInternalBag, Delegate>();
+
+            // get all types and add into typeCache
             var types = Callable.Types.List.Where(predicator);
             this.Types = types.ToArray();
 
@@ -181,9 +176,7 @@ namespace Viyrex.RuntimeServices.Callable
 
         private const TypeAttributes PUBLIC_SEALED = TypeAttributes.Sealed | TypeAttributes.Public;
 
-        private static readonly System.Type s_GenericType;
-
-        private static readonly TreatmentMode s_HowToTreat;
+        private readonly TreatmentMode _howToTreat;
 
         private static readonly object s_locker = new object();
 
@@ -214,7 +207,7 @@ namespace Viyrex.RuntimeServices.Callable
         /// <summary>
         /// 取得 <typeparamref name="TConstraint"/> 類型的 <see cref="System.Type"/> 物件
         /// </summary>
-        public Type ConstraintType => s_GenericType;
+        public Type ConstraintType { get; }
 
         /// <summary>
         /// 取得所有實作或繼承 <typeparamref name="TConstraint"/> 類型的 <see cref="System.Type"/> 物件
@@ -267,9 +260,9 @@ namespace Viyrex.RuntimeServices.Callable
         }
 
         [Conditional("NOT_SUPPORT_GENERIC_TYPE")]
-        private static void SupportedGenericType()
+        private void SupportedGenericType()
         {
-            if (s_GenericType.IsGenericType)
+            if (this.ConstraintType.IsGenericType)
                 throw new GenericArgumentException<TConstraint>("Can't process generic type");
         }
 

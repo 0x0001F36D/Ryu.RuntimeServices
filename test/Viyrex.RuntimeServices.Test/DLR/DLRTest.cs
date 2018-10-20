@@ -13,7 +13,7 @@ namespace Viyrex.RuntimeServices.Tests.DLR
     public class DLRTest
     {
         [TestCase]
-        public void TestSynthesis()
+        public void Ctor()
         {
             dynamic props = new Synthesis
             {
@@ -28,10 +28,9 @@ namespace Viyrex.RuntimeServices.Tests.DLR
         }
 
         [TestCase]
-        public void TestSynthesis2()
+        public void MembersAccess()
         {
             var syn = new Synthesis();
-
             syn.Create("a", 1);
             syn.Create("b", new Func<int, int, int>((arg1, arg2) => arg1 + arg2));
 
@@ -50,7 +49,7 @@ namespace Viyrex.RuntimeServices.Tests.DLR
         }
 
         [TestCase]
-        public void TestSynthesis3()
+        public void Ref()
         {
             dynamic props = new Synthesis(out var t);
             t.Create("a", 12);
@@ -67,7 +66,7 @@ namespace Viyrex.RuntimeServices.Tests.DLR
             }
         }
         [TestCase]
-        public void TestSynthesis4()
+        public void Inherit()
         {
             dynamic props = new Fake();
 
@@ -76,21 +75,28 @@ namespace Viyrex.RuntimeServices.Tests.DLR
         }
 
         [TestCase]
-        public void TestSynthesis5()
+        public void Extension()
         {
 
             var anonymous = new
             {
                 av = 123,
                 b = "test",
-                c = new Func<int,int,int>((x,y)=>x+y)
+                c = new Func<int, int, int>((x, y) => x + y)
             };
-            var props = anonymous.ToSynthesis(x => x.b, x => x.c,x => x.av );
+            var props = anonymous.ToSynthesis(x => x.b, x => x.c, x => x.av);
 
             Assert.AreEqual(props.av, 123);
             Assert.AreEqual(props.b, "test");
             Assert.AreEqual(props.c(10, 20), 30);
 
+        }
+
+        [TestCase]
+        public void MemberNameCheck()
+        {
+            var c = new Synthesis();
+            Assert.Catch(() => c.Create<object>(null, null));
         }
 
 

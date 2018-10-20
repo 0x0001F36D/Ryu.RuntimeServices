@@ -9,6 +9,7 @@ namespace Viyrex.RuntimeServices.Tests.Callable
 
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     using Viyrex.RuntimeServices.Callable;
@@ -16,11 +17,17 @@ namespace Viyrex.RuntimeServices.Tests.Callable
     [TestFixture]
     public class CallableTest
     {
+        public CallableTest()
+        {
+            this._pool = Constraint<ITestInterface>.Pool;
+        }
+
+        private readonly Constraint<ITestInterface> _pool;
+
         [TestCase]
-        public void TestMethod1()
+        public void Types()
         {
             // pool types: T1, T2, T3
-            var pool = Constraint<ITestInterface>.Pool;
 
             var types = new[]
             {
@@ -28,33 +35,83 @@ namespace Viyrex.RuntimeServices.Tests.Callable
                 typeof(T2),
                 typeof(T3)
             };
-
+            Assert.True(this._pool.Types.Length == 3);
             var set = new HashSet<Type>(types);
-            pool.Types.ToList().ForEach(type => Assert.IsTrue(set.Remove(type)));
+            this._pool.Types.ToList().ForEach(type => Assert.IsTrue(set.Remove(type)));
             Assert.True(set.Count == 0);
+        }
 
-            // output: T1-0 return type: T1
-            var strict_1 = pool.Strict<T1>().New();
-            Assert.AreNotEqual(strict_1, new T1());
+        [TestCase]
+        public void Strict1()
+        {
+            // output: T1-0
+            var strict_1 = this._pool.Strict<T1>().New();
+            Assert.IsInstanceOf<T1>(strict_1);
+        }
+
+        [TestCase]
+        public void Strict2()
+        {
+            // output: T1-0
+            // output: T2-0 
+            var strict_2 = this._pool.Strict<T2>().New();
+            Assert.IsInstanceOf<T2>(strict_2);
+        }
+
+        [TestCase]
+        public void Strict3()
+        {
+            // output: T1-0
+            // output: T2-1: 55 
+            var strict_3 = this._pool.Strict<T2>().New((int)55u);
+            Assert.IsInstanceOf<T2>(strict_3);
+        }
+
+        [TestCase]
+        public void Strict4()
+        {
+            var @null = default(object);
+
+            // output: T3-2:  | (int) 66
+            var strict_4 = this._pool.Strict<T3>(true).New(@null, (int)66u);
+            Assert.IsInstanceOf<T3>(strict_4);
+        }
+
+
+        [TestCase]
+        public void Fuzzy1()
+        {
 
             // output: T1-0
-            // output: T2-0 return type: T1
-            var strict_2 = pool.Strict<T2>().New();
-
-            // output: T1-0
-            // output: T2-1: 55 return type: T2
-            var strict_3 = pool.Strict<T2>().New(55);
-
+            // output: T2-1: 55 | Hello
             // output: T3-2: 55 | (object) Hello
-            // output: T1-0
-            // output: T2-1: 55 | Hello return type: ITestInterface[] { T3, T2 }
-            var fuzzy_1 = pool.Fuzzy(55, "Hello").NewAll();
+            var fuzzy_1 = this._pool.Fuzzy(55, "Hello").NewAll().ToList();
+            Assert.AreEqual(fuzzy_1.Count, 2);
+            Assert.IsInstanceOf<T2>(fuzzy_1[0]);
+            Assert.IsInstanceOf<T3>(fuzzy_1[1]);
 
+        }
+
+        [TestCase]
+        public void Fuzzy2()
+        {
+            // output: T3-2: 5.2 | (int) 66 
             // output: T3-2: 5.2 | (object) 66
-            // output: T3-2: 5.2 | (int) 66 return type: ITestInterface[] { T3, T3 }
-            var fuzzy_2 = pool.Fuzzy(5.2, 66).NewAll();
+            var fuzzy_2 = this._pool.Fuzzy(5.2, 66).NewAll().ToList();
+            Assert.AreEqual(fuzzy_2.Count, 2);
+            Assert.IsInstanceOf<T3>(fuzzy_2[0]);
+            Assert.IsInstanceOf<T3>(fuzzy_2[1]);
+        }
 
-            var lz = pool.Fuzzy().Lazy<T2>();
+        [TestCase]
+        public void Fuzzy3()
+        {
+
+            // output: T1-0
+            // output: T2-0 
+            var lz = this._pool.Fuzzy().Lazy<T2>().Instance;
+            Assert.IsInstanceOf<T2>(lz);
+
         }
     }
 }

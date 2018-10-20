@@ -13,19 +13,18 @@ namespace Viyrex.RuntimeServices.Tests.Callable.MockModels
 
         public T3(object s)
         {
-            Console.WriteLine("T3-1: " + s);
-        }
-
-        private T3(object s, object s2)
-        {
-            Console.WriteLine("T3-2: " + s + " | (object) " + s2);
+            System.Diagnostics.Debug.WriteLine("T3-1: " + s);
         }
 
         private T3(object s, int s2)
         {
-            Console.WriteLine("T3-2: " + s + " | (int) " + s2);
+            System.Diagnostics.Debug.WriteLine("T3-2: " + s + " | (int) " + s2);
         }
 
+        private T3(object s, object s2)
+        {
+            System.Diagnostics.Debug.WriteLine("T3-2: " + s + " | (object) " + s2);
+        }
         #endregion Constructors
     }
 }

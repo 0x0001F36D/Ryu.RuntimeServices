@@ -14,6 +14,7 @@ namespace Viyrex.RuntimeServices.DLR
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Runtime.Serialization;
+    using CuttingEdge.Conditions;
 
     /// <summary>
     /// 可對屬性做原子化操作
@@ -35,8 +36,14 @@ namespace Viyrex.RuntimeServices.DLR
     {
         public delegate object MemberSelector<T>(T target);
 
-        public static dynamic ToSynthesis<T>(this T target, params Expression<MemberSelector<T>>[] selectors)
+        public static dynamic ToSynthesis<T>(this T target, params Expression<MemberSelector<T>>[] selectors) where T: class
         {
+            Condition.Requires(target)
+                .IsNotNull();
+            Condition.Ensures(selectors)
+                .IsNotNull()
+                .IsNotEmpty();
+
             var type = typeof(T);
             var items = new Dictionary<string, object>();
             foreach (var selector in selectors)
@@ -81,12 +88,17 @@ namespace Viyrex.RuntimeServices.DLR
 
 
     }
-
+    
     /// <summary>
     /// 提供一般物件至 DLR 物件的動態轉換
     /// </summary>
     [Serializable]
-    public class Synthesis : IDynamicMetaObjectProvider, ISerializable, INotifyPropertyChanged, IEnumerable<KeyValuePair<string, object>>, IAtomicity
+    public class Synthesis :
+        IDynamicMetaObjectProvider, 
+        ISerializable, 
+        INotifyPropertyChanged, 
+        IEnumerable<KeyValuePair<string, object>>, 
+        IAtomicity
     {
 
         public Synthesis(out IAtomicity @this) : this()
@@ -124,6 +136,9 @@ namespace Viyrex.RuntimeServices.DLR
         /// <returns></returns>
         public bool Exist(string name)
         {
+            Condition.Requires(name, nameof(name))
+                .IsNotNullOrWhiteSpace();
+
             return ((IDictionary<string, object>)this._provider).ContainsKey(name);
         }
 
@@ -136,6 +151,9 @@ namespace Viyrex.RuntimeServices.DLR
         /// <returns></returns>
         public bool Create<T>(string name, T value)
         {
+            Condition.Requires(name, nameof(name))
+                .IsNotNullOrWhiteSpace();
+
             if (this.Exist(name))
                 return false;
             ((IDictionary<string, object>)this._provider).Add(name, value);
@@ -151,6 +169,9 @@ namespace Viyrex.RuntimeServices.DLR
         /// <returns></returns>
         public bool Update<T>(string name, T value)
         {
+            Condition.Requires(name, nameof(name))
+                .IsNotNullOrWhiteSpace();
+
             if (this.Exist(name))
             {
                 ((IDictionary<string, object>)this._provider)[name] = value;
@@ -168,6 +189,9 @@ namespace Viyrex.RuntimeServices.DLR
         /// <returns></returns>
         public bool Retrieve<T>(string name, out T value)
         {
+            Condition.Requires(name, nameof(name))
+                .IsNotNullOrWhiteSpace();
+
             value = default(T);
             if (((IDictionary<string, object>)this._provider).TryGetValue(name, out var v) && v is T)
             {
@@ -184,6 +208,9 @@ namespace Viyrex.RuntimeServices.DLR
         /// <returns></returns>
         public bool Delete(string name)
         {
+            Condition.Requires(name, nameof(name))
+                .IsNotNullOrWhiteSpace();
+
             return ((IDictionary<string, object>)this._provider).Remove(name);
         }
 
@@ -313,7 +340,7 @@ namespace Viyrex.RuntimeServices.DLR
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => ((ISerializable)this._provider).GetObjectData(info, context);
+         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => ((ISerializable)this._provider).GetObjectData(info, context);
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator() => ((IDictionary<string, object>)this._provider).GetEnumerator();
@@ -321,7 +348,15 @@ namespace Viyrex.RuntimeServices.DLR
         [EditorBrowsable(EditorBrowsableState.Never)]
         IEnumerator IEnumerable.GetEnumerator() => ((IDictionary<string, object>)this._provider).GetEnumerator();
 
+
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void Add(string name, object value) => this.Create(name, value);
+        public void Add(string name, object value)
+        {
+            Condition.Requires(name, nameof(name))
+                .IsNotNullOrWhiteSpace();
+
+            this.Create(name, value);
+        }
+
     }
 }

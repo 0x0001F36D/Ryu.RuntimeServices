@@ -13,17 +13,17 @@ namespace Viyrex.RuntimeServices.Tests.Callable.MockModels
 
         public T2() : base()
         {
-            Console.WriteLine("T2-0");
+            System.Diagnostics.Debug.WriteLine("T2-0");
         }
 
         public T2(int s)
         {
-            Console.WriteLine("T2-1: " + s);
+            System.Diagnostics.Debug.WriteLine("T2-1: " + s);
         }
 
         public T2(int s, object s2)
         {
-            Console.WriteLine("T2-1: " + s + " | " + s2);
+            System.Diagnostics.Debug.WriteLine("T2-1: " + s + " | " + s2);
         }
 
         #endregion Constructors

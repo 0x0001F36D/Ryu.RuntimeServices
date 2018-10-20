@@ -15,7 +15,7 @@ namespace Ryu.RuntimeServices.Tests.Callable
     using Ryu.RuntimeServices.Callable;
     using Ryu.RuntimeServices.Tests.Callable.MockModels;
 
-    [TestFixture]
+    [TestFixture] 
     public class CallableTest
     {
         public CallableTest()

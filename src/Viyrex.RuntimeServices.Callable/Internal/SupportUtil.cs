@@ -52,8 +52,6 @@ namespace Viyrex.RuntimeServices.Callable.Internal
                 return TreatmentMode.Class;
             }
 
-
-
             return TreatmentMode.NotTreated;
         }
 

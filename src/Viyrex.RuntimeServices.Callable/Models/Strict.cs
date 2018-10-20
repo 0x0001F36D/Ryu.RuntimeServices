@@ -19,20 +19,39 @@ namespace Viyrex.RuntimeServices.Callable.Models
     /// <typeparam name="TReturn">回傳結果的類型</typeparam>
     public sealed partial class Strict<TConstraint, TReturn> : IConstraintCollector<TConstraint> where TReturn : TConstraint
     {
-        #region Constructors
+        #region Structs
 
-        /// <summary>
-        /// 初始化 <see cref="Strict{TConstraint, TReturn}"/> 結構的新執行個體
-        /// </summary>
-        /// <param name="collector"></param>
-        internal Strict(Constraint<TConstraint> collector, bool thrownOrDefault)
+        private struct GenericValue
         {
-            this.Collector = collector;
-            this.ThrownOrDefault = thrownOrDefault;
-            this.Target = typeof(TReturn);
+            #region Properties
+
+            public Type Type { get; }
+
+            #endregion Properties
+
+            #region Constructors
+
+            private GenericValue(Type type)
+            {
+                this.Type = type;
+            }
+
+            #endregion Constructors
+
+            #region Methods
+
+            internal static object Get<T>(T arg)
+            {
+                if (arg == null)
+                    return new GenericValue(typeof(T));
+
+                return arg;
+            }
+
+            #endregion Methods
         }
 
-        #endregion Constructors
+        #endregion Structs
 
         #region Properties
 
@@ -53,9 +72,24 @@ namespace Viyrex.RuntimeServices.Callable.Models
 
         private TReturn ErrorProcess
 
-            => this.ThrownOrDefault ? throw ConstructorNotFoundException.Instance : default(TReturn);
+                    => this.ThrownOrDefault ? throw ConstructorNotFoundException.Instance : default(TReturn);
 
         #endregion Properties
+
+        #region Constructors
+
+        /// <summary>
+        /// 初始化 <see cref="Strict{TConstraint, TReturn}"/> 結構的新執行個體
+        /// </summary>
+        /// <param name="collector"></param>
+        internal Strict(Constraint<TConstraint> collector, bool thrownOrDefault)
+        {
+            this.Collector = collector;
+            this.ThrownOrDefault = thrownOrDefault;
+            this.Target = typeof(TReturn);
+        }
+
+        #endregion Constructors
 
         #region Methods
 
@@ -89,24 +123,6 @@ namespace Viyrex.RuntimeServices.Callable.Models
 
     partial class Strict<TConstraint, TReturn>
     {
-        private struct GenericValue
-        {
-            internal static object Get<T>(T arg)
-            {
-                if (arg == null)
-                    return new GenericValue(typeof(T));
-
-                return arg;
-            }
-
-            private GenericValue(Type type)
-            {
-                this.Type = type;
-            }
-
-            public Type Type { get; }
-        }
-
         #region Methods
 
         public TReturn New()

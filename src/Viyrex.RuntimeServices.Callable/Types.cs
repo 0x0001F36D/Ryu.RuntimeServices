@@ -4,12 +4,13 @@
 
 namespace Viyrex.RuntimeServices.Callable
 {
+    using CuttingEdge.Conditions;
+
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using CuttingEdge.Conditions;
 
     /// <summary>
     /// 公開類型集合
@@ -61,7 +62,7 @@ namespace Viyrex.RuntimeServices.Callable
         {
             get
             {
-                Condition.Requires(predicate,nameof(predicate))
+                Condition.Requires(predicate, nameof(predicate))
                     .IsNotNull();
 
                 var types = from t in this._types

@@ -22,11 +22,11 @@ namespace Viyrex.RuntimeServices.Callable
 
     /// <summary>
     /// 提供製作動態 <typeparamref name="TConstraint"/> 物件的支援， 且 <typeparamref name="TConstraint"/>
-    /// 必須是無泛型參數的 <see langword="abstract"/> <see langword="class"/>、 <see langword="class"/> 或 <see
+    /// 必須是無泛型參數的 <see langword="abstract"/><see langword="class"/>、 <see langword="class"/> 或 <see
     /// langword="interface"/> 類型
     /// </summary>
     /// <typeparam name="TConstraint">
-    /// 欲製作實體之類型。 必須是無泛型參數的 <see langword="abstract"/> <see langword="class"/>、 <see
+    /// 欲製作實體之類型。 必須是無泛型參數的 <see langword="abstract"/><see langword="class"/>、 <see
     /// langword="class"/> 或 <see langword="interface"/> 類型
     /// </typeparam>
     /// <exception cref="GenericArgumentException{T}"/>
@@ -118,8 +118,6 @@ namespace Viyrex.RuntimeServices.Callable
 
         #region Constructors
 
-        
-
         private Constraint()
         {
             this.ConstraintType = typeof(TConstraint);
@@ -140,8 +138,6 @@ namespace Viyrex.RuntimeServices.Callable
                     this.SupportedGenericType();
                     throw new GenericArgumentException<TConstraint>();
             }
-
-
 
             this._multicastDelegete = typeof(MulticastDelegate);
             this._object = typeof(object);
@@ -176,11 +172,9 @@ namespace Viyrex.RuntimeServices.Callable
 
         private const TypeAttributes PUBLIC_SEALED = TypeAttributes.Sealed | TypeAttributes.Public;
 
-        private readonly TreatmentMode _howToTreat;
-
         private static readonly object s_locker = new object();
-
         private static volatile Constraint<TConstraint> s_instance;
+        private readonly TreatmentMode _howToTreat;
         private readonly ModuleBuilder _module;
 
         private readonly System.Type _multicastDelegete, _object, _intPtr;

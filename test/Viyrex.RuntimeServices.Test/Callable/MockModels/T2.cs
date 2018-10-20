@@ -5,8 +5,6 @@
 
 namespace Viyrex.RuntimeServices.Tests.Callable.MockModels
 {
-    using System;
-
     public class T2 : T1
     {
         #region Constructors

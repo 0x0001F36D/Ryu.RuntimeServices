@@ -5,11 +5,11 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 // 組件的一般資訊是由下列的屬性集控制。 變更這些屬性的值即可修改組件的相關 資訊。
-[assembly: AssemblyTitle("Ryuko.Windows")]
+[assembly: AssemblyTitle("Ryuko.ProcessModel")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Ryuko.Windows")]
+[assembly: AssemblyCompany("Viyrex(aka Yuyu)")]
+[assembly: AssemblyProduct("Ryuko.ProcessModel")]
 [assembly: AssemblyCopyright("Copyright © Viyrex(aka Yuyu) 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 下列 GUID 為專案公開 (Expose) 至 COM 時所要使用的 typelib ID
-[assembly: Guid("42c575e4-4811-4daf-b6f6-047d42efe16f")]
+[assembly: Guid("92be999d-eba6-4a83-87d9-6ef85d916ad1")]
 
 // 組件的版本資訊由下列四個值所組成:
 //
@@ -30,5 +30,5 @@ using System.Runtime.InteropServices;
 // 您可以指定所有的值，或將組建編號或修訂編號設為預設值
 //方法是使用 '*'，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.17.17.6868")]
-[assembly: AssemblyFileVersion("2018.10.21.0100")]
+[assembly: AssemblyVersion("1.8.8.6868")]
+[assembly: AssemblyFileVersion("2018.10.21.0139")]

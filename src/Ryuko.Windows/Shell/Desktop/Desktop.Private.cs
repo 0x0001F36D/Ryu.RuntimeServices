@@ -2,17 +2,18 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 
-namespace Ryuko.Windows.Utilities
+namespace Ryuko.Windows.Shell.Desktop
 {
-    using Ryuko.Windows.Utilities.Enums;
-    using Ryuko.Windows.Utilities.Internal;
+    using Ryuko.Windows.Shell.Enums;
+    using Ryuko.Windows.Shell.Internal;
 
     using System;
     using System.Runtime.InteropServices;
 
-    public static class Desktop
+   
+    static partial class Desktop
     {
-        #region Structs
+#region Structs
 
         [StructLayout(LayoutKind.Sequential)]
         private struct RECT
@@ -43,53 +44,9 @@ namespace Ryuko.Windows.Utilities
             }
         }
 
-        #endregion Structs
+#endregion Structs
 
-        #region Properties
-
-        public static bool IsActiveWindow
-        {
-            get
-            {
-                return GetWindow(GetForegroundWindow(), 5)
-                    == GetWindow(GetHandle(), 3);
-            }
-        }
-
-        public static bool IsDesktopControlsVisible
-        {
-            get
-            {
-                return IsWindowVisible(GetHandle());
-            }
-        }
-
-        public static bool IsDesktopIconsVisible
-        {
-            get
-            {
-                IntPtr hWnd = GetWindow(GetHandle(), 5);
-                WINDOWINFO info = new WINDOWINFO();
-                info.cbSize = (uint)Marshal.SizeOf(info);
-                GetWindowInfo(hWnd, ref info);
-                return (info.dwStyle & 0x10000000) == 0x10000000;
-            }
-        }
-
-        #endregion Properties
-
-        #region Methods
-
-        [DllImport(Constants.USER32_DLL, EntryPoint = "LockWorkStation", CharSet = CharSet.Unicode)]
-        public static extern void LockScreen();
-
-        public static void ToggleDesktopControls()
-            => ShowWindowAsync(GetHandle(), IsDesktopControlsVisible ? SetWindows.Hide : SetWindows.Normal);
-
-        public static void ToggleDesktopIcons()
-        {
-            SendMessage(GetHandle(), 0x0111, (IntPtr)0x7402, (IntPtr)0);
-        }
+#region Methods
 
         [DllImport(Constants.USER32_DLL, CharSet = CharSet.Unicode)]
         private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -137,6 +94,6 @@ namespace Ryuko.Windows.Utilities
         [DllImport(Constants.USER32_DLL, CharSet = CharSet.Unicode)]
         private static extern bool ShowWindowAsync(IntPtr hWnd, SetWindows nCmdShow);
 
-        #endregion Methods
+#endregion Methods
     }
 }

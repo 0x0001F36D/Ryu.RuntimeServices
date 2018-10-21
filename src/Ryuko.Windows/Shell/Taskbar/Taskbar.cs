@@ -2,7 +2,7 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 #if TASKBAR
-namespace Ryuko.Windows.Shell.Taskbar
+namespace Ryuko.Windows.Shell
 {
     using System;
     using System.Collections.Generic;

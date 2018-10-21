@@ -4,38 +4,40 @@
 
 namespace Ryuko.ProcessModel.StateMachine.TaskModels
 {
+    using System;
     using Ryuko.ProcessModel.StateMachine.Delegates;
     using Ryuko.ProcessModel.StateMachine.Interfaces;
-    using System;
-    using System.Collections.Concurrent;
 
     public sealed class ProcessTask<TTask, TNextTask> : IStatement
     {
-        internal ProcessTask(ProcessTaskHandler<TTask, TNextTask> task,  TaskQueue<IStatement> queue)
+        private TaskQueue<IStatement> _queue;
+
+        public ProcessTaskHandler<TTask, TNextTask> Task { get; }
+
+        internal ProcessTask(ProcessTaskHandler<TTask, TNextTask> task, TaskQueue<IStatement> queue)
         {
             this.Task = task;
             queue.Enqueue(this);
             this._queue = queue;
         }
 
-        private TaskQueue<IStatement> _queue;
-
-        public ProcessTaskHandler<TTask, TNextTask> Task { get; }
-
         public ExecuteTask<TNextTask> Execute(ExecuteTaskHandler<TNextTask> task)
         {
-            return new ExecuteTask<TNextTask>(task,  this._queue);
+            return new ExecuteTask<TNextTask>(task, this._queue);
         }
 
         public ProcessTask<TNextTask, TPipeline> Process<TPipeline>(ProcessTaskHandler<TNextTask, TPipeline> task)
         {
-            return new ProcessTask<TNextTask, TPipeline>(task,  this._queue);
+            return new ProcessTask<TNextTask, TPipeline>(task, this._queue);
         }
-        
 
-        public EndTask<TNextTask> Stop()
+        public Workflow<TNextTask> Stop()
         {
-            return new EndTask<TNextTask>( this._queue);
+            return new Workflow<TNextTask>(this._queue);
         }
+
+        Delegate IStatement.Task => this.Task;
+
+        EventNodeKinds IStatement.NodeKinds => EventNodeKinds.Process;
     }
 }

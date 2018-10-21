@@ -2,7 +2,7 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 
-namespace Ryuko.Windows.Shell.Desktop
+namespace Ryuko.Windows.Shell
 {
     using Ryuko.Windows.Shell.Enums;
     using Ryuko.Windows.Shell.Internal;

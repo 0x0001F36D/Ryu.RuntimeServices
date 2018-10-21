@@ -2,27 +2,17 @@
 namespace Ryuko.ConsoleTest
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Drawing;
-    using System.Linq;
-    using System.Runtime.InteropServices;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Forms;
-    using System.Windows.Interop;
-    using System.Windows.Media;
     using Ryuko.ProcessModel.StateMachine;
-    using Ryuko.Windows.Shell.Desktop;
-    using Ryuko.Windows.Shell.Taskbar;
+    using Ryuko.ProcessModel.StateMachine.Interfaces;
 
     class Program
     {
         [STAThread]
         static void Main(string[] args)
         {
+            Builder.Start(() => { }).Stop();
+            Console.ReadKey();
+            return;
 
             var b1 = Builder
                 .Start(() => new { Id = 1 })

@@ -11,65 +11,19 @@ namespace Ryuko.ProcessModel.StateMachine
     using System.Collections.Generic;
     using System.Diagnostics;
 
-   
-
-
-    public enum FsmState
+    internal struct NoneAction
     {
-        /// <summary>
-        /// 起始
-        /// </summary>
-        S0 = 0,
-        /// <summary>
-        /// 無參數運算
-        /// </summary>
-        S1,
-        /// <summary>
-        /// 含參數運算
-        /// </summary>
-        S2,
-        /// <summary>
-        /// 完成
-        /// </summary>
-        S3,
-        /// <summary>
-        /// 錯誤
-        /// </summary>
-        S4 = -1
     }
+    
 
-
-    public enum FsmFlowDirection
-    {
-
-        /// <summary>
-        /// 進入無回傳步進點
-        /// </summary>
-        L01 = 1,
-        /// <summary>
-        /// 進入含回傳步進點
-        /// </summary>
-        L02 = 2,
-
-        L11 = 11,
-        L12 = 12,
-        L13 = 13,
-
-        L21 = 21,
-        L22 = 22,
-        L23 = 23,
-
-        L14 = 14,
-        L24 = 24,
-
-    }
 
     public class StateMachine<T> : StateMachine
     {
         public StateMachine(Workflow<T> workflow) : base(workflow.Queue)
         { }
     }
-        public class StateMachine
+
+    public class StateMachine
     {
         private readonly TaskQueue<IStatement> _queue;
 
@@ -92,137 +46,192 @@ namespace Ryuko.ProcessModel.StateMachine
         public ConcurrentStack<object> Start()
         {
             var fd = default(FsmFlowDirection?);
+            var stateStore = default(FsmState?);
             var result = default(object);
             try
             {
-                var stateStore = default(FsmState?);
 
-                this.OnInit(ref fd,ref stateStore);
+                this.OnInit(ref fd, ref stateStore);
 
                 this.OnStart(ref fd, ref stateStore, ref result);
 
-                while (this._queue.HasElement)
+                while (this._queue.HasElement && this._queue.TryDequeue(out var statement))
                 {
-                    if (this._queue.TryDequeue(out var statement))
-                    {
-                        this.OnContextProcess(statement, ref fd, ref stateStore, ref result);
-                    }
+                    Debug.WriteLine(statement.NodeKind);
+                    this.OnContextProcess(statement, ref fd, ref stateStore, ref result);
+
                 }
-                
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Debug.WriteLine(e);
-                this.OnError(ref fd);
+                // Debug.WriteLine(e);
+                this.OnError(ref fd, ref stateStore);
                 throw e;
             }
             finally
             {
-                Debug.WriteLine("??: "+fd);
+
+                this.OnCompleted(ref fd, ref stateStore);
             }
 
-            this.OnCompleted(ref fd);
             return this._stack;
         }
 
+        /// <summary>
+        /// 無參
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="delegate"></param>
+        /// <returns></returns>
         private bool WrapInvoke(ref object result, Delegate @delegate)
-            => this.WrapInvoke(ref result, @delegate, null);
+        {
+            if(@delegate.Method.ReturnType != typeof(void))
+            {
+                result = @delegate?.DynamicInvoke();
+                return true;
+            }
+            @delegate?.DynamicInvoke();
+            return false;
+        }
 
+        /// <summary>
+        /// 有參
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="delegate"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool WrapInvoke(ref object result, Delegate @delegate, object arg)
         {
-            var b = @delegate.Method.ReturnType == typeof(void);
-            if(b)
-                @delegate?.DynamicInvoke(arg);
-            else
-               result =  @delegate?.DynamicInvoke(arg);
+            var args = new object[1] { arg };
 
+            if (@delegate.Method.ReturnType != typeof(void))
+            {
+                result = @delegate?.DynamicInvoke(args);
+                return true;
+            }
+            @delegate?.DynamicInvoke(args);
+            return false;
+        }
 
-            Debug.WriteLine("W: "+b);
-            return b;
+        private  StateMachine SetInfo(
+            ref FsmFlowDirection? flowDirection,
+            FsmFlowDirection? nextFlowDirection,
+            ref FsmState? state,
+             FsmState? nextState)
+        {
+            this.FlowDirection = flowDirection = nextFlowDirection ;
+            this.State = state = nextState;
+
+            return  this;
         }
 
         private void OnStart(ref FsmFlowDirection? flowDirection, ref FsmState? state, ref object result)
         {
             if (this._queue.TryDequeue(out var statement))
             {
-                if (statement.NodeKinds == EventNodeKinds.Do)
+                if (statement.NodeKind == EventNodeKinds.Get)
                 {
-                    this.FlowDirection = flowDirection = FsmFlowDirection.L01;
 
-                    this.WrapInvoke(ref result, statement.Task);
-
-                    this.State = state = FsmState.S1;
+                    this.SetInfo(ref flowDirection, FsmFlowDirection.L01, ref state, FsmState.S1)
+                        .WrapInvoke(ref result, statement.Task);
+                    
+                    Debug.WriteLine("On Start Task");
                     return;
                 }
-                if (statement.NodeKinds == EventNodeKinds.Get)
+                if (statement.NodeKind == EventNodeKinds.Do)
                 {
-                    this.FlowDirection = flowDirection = FsmFlowDirection.L02;
+                    this.SetInfo(ref flowDirection, FsmFlowDirection.L02, ref state, FsmState.S2)
+                        .WrapInvoke(ref result, statement.Task);
 
-                    this.WrapInvoke(ref result, statement.Task);
-
-                    this.State = state = FsmState.S2;
+                    Debug.WriteLine("On Start Get");
                     return;
                 }
             }
 
-            throw new InvalidOperationException();
-
+            //throw new InvalidOperationException("E");
         }
 
 
 
         private void OnContextProcess(IStatement statement, ref FsmFlowDirection? flowDirection, ref FsmState? state, ref object result)
         {
+
             if (state == FsmState.S1)
             {
                 if (flowDirection == FsmFlowDirection.L01 || flowDirection == FsmFlowDirection.L11 || flowDirection == FsmFlowDirection.L21)
                 {
-                    if (statement.NodeKinds == EventNodeKinds.Get)
+
+                    if (flowDirection == FsmFlowDirection.L02 || flowDirection == FsmFlowDirection.L12 || flowDirection == FsmFlowDirection.L22)
                     {
-                        this.FlowDirection = flowDirection = FsmFlowDirection.L12;
 
-                        this.WrapInvoke(ref result, statement.Task);
-                        this._stack.Push(result);
+                        if (statement.NodeKind == EventNodeKinds.Get)
+                        {
+                            this.FlowDirection = flowDirection = FsmFlowDirection.L12;
 
-                        this.State = state = FsmState.S2;
+                            this.WrapInvoke(ref result, statement.Task);
+                            this._stack.Push(result);
+
+                            this.State = state = FsmState.S2;
+
+                            Debug.WriteLine("On Start Get");
+                        }
+                        else if (statement.NodeKind == EventNodeKinds.Do)
+                        {
+                            this.FlowDirection = flowDirection = FsmFlowDirection.L11;
+
+                            this.WrapInvoke(ref result, statement.Task);
+
+                            this.State = state = FsmState.S1;
+                            Debug.WriteLine("On Start Do");
+                        }
+                        else
+                            goto Throw;
+
                     }
-                    else if (statement.NodeKinds == EventNodeKinds.Do)
-                    {
-                        this.FlowDirection = flowDirection = FsmFlowDirection.L11;
+                    else
+                        goto Throw;
 
-                        this.WrapInvoke(ref result, statement.Task);
-
-                        this.State = state = FsmState.S1;
-                    }
                 }
-                return;
+
+                else
+                    goto Throw;
             }
             else if (state == FsmState.S2)
             {
 
-                if (flowDirection == FsmFlowDirection.L02 || flowDirection == FsmFlowDirection.L12 || flowDirection == FsmFlowDirection.L22)
+
+
+                if (statement.NodeKind == EventNodeKinds.Process)
                 {
-                    if (statement.NodeKinds == EventNodeKinds.Process)
-                    {
-                        this.FlowDirection = flowDirection = FsmFlowDirection.L22;
+                    this.FlowDirection = flowDirection = FsmFlowDirection.L22;
 
-                        this.WrapInvoke(ref result, statement.Task, result);
-                        this._stack.Push(result);
+                    this.WrapInvoke(ref result, statement.Task, result);
+                    this._stack.Push(result);
 
-                        this.State = state = FsmState.S2;
-                    }
-                    else if (statement.NodeKinds == EventNodeKinds.Execute)
-                    {
-                        this.FlowDirection = flowDirection = FsmFlowDirection.L21;
-
-                        this.WrapInvoke(ref result, statement.Task,result);
-
-                        this.State = state = FsmState.S1;
-                    }
+                    this.State = state = FsmState.S2;
+                    Debug.WriteLine("On Start Process");
                 }
-                return;
+                else if (statement.NodeKind == EventNodeKinds.Execute)
+                {
+                    this.FlowDirection = flowDirection = FsmFlowDirection.L21;
+
+                    this.WrapInvoke(ref result, statement.Task, result);
+
+                    this.State = state = FsmState.S1;
+                    Debug.WriteLine("On Start Execute");
+                }
+                else
+                    goto Throw;
+
             }
 
+            return;
+
+
+
+            Throw:
             throw new InvalidOperationException();
         }
 
@@ -235,54 +244,49 @@ namespace Ryuko.ProcessModel.StateMachine
             this.State = state = FsmState.S0;
         }
 
-        private void OnError(ref FsmFlowDirection? flowDirection)
+        private void OnError(ref FsmFlowDirection? flowDirection, ref FsmState? state)
         {
+
+
             if (flowDirection == FsmFlowDirection.L11 ||
                 flowDirection == FsmFlowDirection.L12)
             {
-                flowDirection = FsmFlowDirection.L14;
-                this.FlowDirection = FsmFlowDirection.L14;
-                this.State = FsmState.S4;
+                this.SetInfo(ref flowDirection, FsmFlowDirection.L14, ref state, FsmState.S4);
                 return;
             }
 
             if (flowDirection == FsmFlowDirection.L21 ||
                 flowDirection == FsmFlowDirection.L22)
             {
-                flowDirection = FsmFlowDirection.L24;
-                this.FlowDirection = FsmFlowDirection.L24;
-                this.State = FsmState.S4;
+                this.SetInfo(ref flowDirection, FsmFlowDirection.L24, ref state, FsmState.S4);
                 return;
             }
 
-            throw new InvalidOperationException();
+            //throw new InvalidOperationException();
         }
 
-        private void OnCompleted(ref FsmFlowDirection? flowDirection)
+        private void OnCompleted(ref FsmFlowDirection? flowDirection, ref FsmState? state)
         {
             if (flowDirection == FsmFlowDirection.L11 ||
                 flowDirection == FsmFlowDirection.L12)
             {
-                flowDirection = FsmFlowDirection.L13;
-                this.FlowDirection = FsmFlowDirection.L13;
-                this.State = FsmState.S3;
+                this.SetInfo(ref flowDirection, FsmFlowDirection.L13, ref state, FsmState.S3);
                 return;
             }
 
             if (flowDirection == FsmFlowDirection.L21 ||
                 flowDirection == FsmFlowDirection.L22)
             {
-                flowDirection = FsmFlowDirection.L23;
-                this.FlowDirection = FsmFlowDirection.L23;
-                this.State = FsmState.S3;
+                this.SetInfo(ref flowDirection, FsmFlowDirection.L23, ref state, FsmState.S3);
                 return;
             }
+
             throw new InvalidOperationException();
         }
 
         private void OnStart(IStatement statement,ref object value)
         {
-            switch (statement.NodeKinds)
+            switch (statement.NodeKind)
             {
                 case EventNodeKinds.Do:
                     statement.Task?.DynamicInvoke();

@@ -4,11 +4,11 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Ryuko.UnitTests")]
+[assembly: AssemblyTitle("Ryuko.UnitTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Ryuko.UnitTests")]
+[assembly: AssemblyProduct("Ryuko.UnitTest")]
 [assembly: AssemblyCopyright("Copyright © Viyrex(aka Yuyu) 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

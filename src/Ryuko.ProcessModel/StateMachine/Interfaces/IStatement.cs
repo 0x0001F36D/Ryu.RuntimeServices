@@ -3,6 +3,7 @@
 // Github: https://github.com/0x0001F36D
 
 using System;
+using System.Diagnostics;
 
 namespace Ryuko.ProcessModel.StateMachine.Interfaces
 {
@@ -10,7 +11,7 @@ namespace Ryuko.ProcessModel.StateMachine.Interfaces
     {
         Delegate Task { get; }
 
-        EventNodeKinds NodeKinds { get; }
+        EventNodeKinds NodeKind { get; }
     }
     
     public enum EventNodeKinds

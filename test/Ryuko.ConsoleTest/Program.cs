@@ -2,20 +2,12 @@
 namespace Ryuko.ConsoleTest
 {
     using System;
+    using System.Collections.Concurrent;
     using Ryuko.ProcessModel.StateMachine;
     using Ryuko.ProcessModel.StateMachine.Interfaces;
 
     class Program
     {
-        readonly struct CC
-        {
-            public CC(int v)
-            {
-                this.V = v;
-            }
-            public int V { get; }
-        }
-
 
         [STAThread]
         static void Main(string[] args)
@@ -23,19 +15,33 @@ namespace Ryuko.ConsoleTest
 
 
 
+            var wf = Builder
+                .Start(() => Console.WriteLine("A"))
+                .Get(() => 122)
+                .Stop();
+            //--- OnStart
+            //S0
+            //L01
+            //S1
+            //-----
+            //L12
+            //S2
 
 
-            var wf = Builder.Start(() => Console.WriteLine("A")).Get(()=>122).Stop();
+
+            // home: stack tracable
             var m = new StateMachine<int>(wf);
             m.FlowDirectionChanged += (sender, e) => Console.WriteLine(e);
             m.StateChanged += (sender, e) => Console.WriteLine(e);
 
             
             var stack = m.Start();
-            foreach (var item in stack)
+            
+            if(            stack.TryPop(out var s) && s.Equals( 122))
             {
-                Console.WriteLine("R: "+item);
+                Console.WriteLine("T");
             }
+
 
             Console.ReadKey();
             return;

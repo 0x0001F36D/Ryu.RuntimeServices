@@ -7,7 +7,9 @@ namespace Ryuko.ProcessModel.StateMachine.TaskModels
     using Ryuko.ProcessModel.StateMachine.Delegates;
     using Ryuko.ProcessModel.StateMachine.Interfaces;
     using System;
+    using System.Diagnostics;
 
+    [DebuggerDisplay("Type: Do | Task: {Task} | NodeKind: {NodeKind}")]
     public sealed class DoTask : IStatement
     {
         private TaskQueue<IStatement> _queue;
@@ -38,6 +40,6 @@ namespace Ryuko.ProcessModel.StateMachine.TaskModels
 
         Delegate IStatement.Task => this.Task;
 
-        EventNodeKinds IStatement.NodeKinds => EventNodeKinds.Get;
+        EventNodeKinds IStatement.NodeKind => EventNodeKinds.Get;
     }
 }

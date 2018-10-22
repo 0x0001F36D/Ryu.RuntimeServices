@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{4C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.RuntimeService", "src\Ryuko.RuntimeServices\Ryuko.RuntimeService.csproj", "{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.UnitTests", "test\Ryuko.UnitTests\Ryuko.UnitTests.csproj", "{9E3D1F97-9771-4760-BC5E-393444BBCCA1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.Windows", "src\Ryuko.Windows\Ryuko.Windows.csproj", "{42C575E4-4811-4DAF-B6F6-047D42EFE16F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.ConsoleTest", "test\Ryuko.ConsoleTest\Ryuko.ConsoleTest.csproj", "{3C8D3541-9047-40F6-BB4E-ABFC88BCB15D}"
@@ -36,14 +34,6 @@ Global
 		{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}.Release|x86.ActiveCfg = Release|x86
 		{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}.Release|x86.Build.0 = Release|x86
-		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Debug|x86.Build.0 = Debug|Any CPU
-		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Release|x86.ActiveCfg = Release|Any CPU
-		{9E3D1F97-9771-4760-BC5E-393444BBCCA1}.Release|x86.Build.0 = Release|Any CPU
 		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42C575E4-4811-4DAF-B6F6-047D42EFE16F}.Debug|x86.ActiveCfg = Debug|Any CPU

@@ -2,7 +2,7 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 
-namespace Ryuko.UnitTests.RuntimeServices.DLR
+namespace Ryuko.UnitTest.RuntimeServices.DLR
 {
     using NUnit.Framework;
 

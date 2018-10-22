@@ -7,26 +7,15 @@ using System;
 
 namespace Ryuko.ProcessModel.StateMachine
 {
-    public class Workflow<T>
+    public class Workflow
     {
         private readonly TaskQueue<IStatement> _queue;
-
-        public T Result { get; set; }
 
         internal Workflow(TaskQueue<IStatement> queue)
         {
             this._queue = queue;
         }
 
-        private void s()
-        {
-            while (_queue.HasElement)
-            {
-                if (_queue.TryDequeue(out var current))
-                {
-                    Console.WriteLine(current.ToString());
-                }
-            }
-        }
+        internal TaskQueue<IStatement> Queue => this._queue;
     }
 }

@@ -7,10 +7,36 @@ namespace Ryuko.ConsoleTest
 
     class Program
     {
+        readonly struct CC
+        {
+            public CC(int v)
+            {
+                this.V = v;
+            }
+            public int V { get; }
+        }
+
+
         [STAThread]
         static void Main(string[] args)
         {
-            Builder.Start(() => { }).Stop();
+
+
+
+
+
+            var wf = Builder.Start(() => Console.WriteLine("A")).Get(()=>122).Stop();
+            var m = new StateMachine<int>(wf);
+            m.FlowDirectionChanged += (sender, e) => Console.WriteLine(e);
+            m.StateChanged += (sender, e) => Console.WriteLine(e);
+
+            
+            var stack = m.Start();
+            foreach (var item in stack)
+            {
+                Console.WriteLine("R: "+item);
+            }
+
             Console.ReadKey();
             return;
 

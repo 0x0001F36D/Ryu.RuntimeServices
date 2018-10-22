@@ -39,7 +39,7 @@ namespace Ryuko.ProcessModel.StateMachine
             return this._queue.TryPeek(out next);
         }
 
-        internal bool TryDequeue(ref TStatement current, ref TStatement next)
+        internal bool TryFetch(ref TStatement current, ref TStatement next)
         {
             return this._queue.TryDequeue(out current) & this._queue.TryPeek(out next);
         }

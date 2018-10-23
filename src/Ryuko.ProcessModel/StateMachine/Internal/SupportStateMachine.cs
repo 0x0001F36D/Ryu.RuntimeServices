@@ -60,7 +60,6 @@ namespace Ryuko.ProcessModel.StateMachine
             }
             return new Result<object>(obj, stack);
 
-
             bool WrapInvokeWithoutArgument(ref object result, Delegate @delegate)
             {
                 if (@delegate.Method.ReturnType != typeof(void))

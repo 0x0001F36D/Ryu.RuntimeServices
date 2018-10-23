@@ -8,17 +8,17 @@ namespace Ryuko.UnitTest.RuntimeServices.Callable
 {
     using NUnit.Framework;
 
+    using Ryuko.RuntimeServices.Callable;
+    using Ryuko.UnitTest.RuntimeServices.Callable.MockModels;
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using Ryuko.RuntimeServices.Callable;
-    using Ryuko.UnitTest.RuntimeServices.Callable.MockModels;
-
     [TestFixture]
-    public class CallableTest
+    public class ConstraintTest
     {
-        public CallableTest()
+        public ConstraintTest()
         {
             this._pool = Constraint<ITestInterface>.Pool;
         }

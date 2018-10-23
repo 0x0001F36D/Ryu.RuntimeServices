@@ -2,6 +2,7 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 #define DLR
+
 namespace Ryuko.RuntimeServices.DLR
 {
     using CuttingEdge.Conditions;
@@ -147,6 +148,16 @@ namespace Ryuko.RuntimeServices.DLR
 
         protected dynamic This => this;
 
+        public dynamic this[string name]
+        {
+            get
+            {
+                return ((IDictionary<string, object>)this._provider).TryGetValue(name, out var v)
+                    ? v
+                    : throw new KeyNotFoundException("Key: " + name);
+            }
+        }
+
         public Synthesis(out IAtomicity @this) : this()
         {
             @this = this;
@@ -204,7 +215,7 @@ namespace Ryuko.RuntimeServices.DLR
         /// </summary>
         /// <param name="name">動態物件成員名稱</param>
         /// <returns></returns>
-        bool IAtomicity. Delete(string name)
+        bool IAtomicity.Delete(string name)
         {
             Condition.Requires(name, nameof(name))
                 .IsNotNullOrWhiteSpace();
@@ -217,7 +228,7 @@ namespace Ryuko.RuntimeServices.DLR
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        bool IAtomicity. Exist(string name)
+        bool IAtomicity.Exist(string name)
         {
             Condition.Requires(name, nameof(name))
                 .IsNotNullOrWhiteSpace();
@@ -244,7 +255,7 @@ namespace Ryuko.RuntimeServices.DLR
         /// <param name="name">動態物件成員名稱</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        bool IAtomicity. Retrieve<T>(string name, out T value)
+        bool IAtomicity.Retrieve<T>(string name, out T value)
         {
             Condition.Requires(name, nameof(name))
                 .IsNotNullOrWhiteSpace();
@@ -265,7 +276,7 @@ namespace Ryuko.RuntimeServices.DLR
         /// <param name="name">動態物件成員名稱</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        bool IAtomicity. Update<T>(string name, T value)
+        bool IAtomicity.Update<T>(string name, T value)
         {
             Condition.Requires(name, nameof(name))
                 .IsNotNullOrWhiteSpace();
@@ -276,16 +287,6 @@ namespace Ryuko.RuntimeServices.DLR
                 return true;
             }
             return false;
-        }
-
-        public dynamic this[string name]
-        {
-            get
-            {
-                return ((IDictionary<string, object>)this._provider).TryGetValue(name, out var v) 
-                    ? v 
-                    : throw new KeyNotFoundException("Key: "+name);
-            }
         }
     }
 }

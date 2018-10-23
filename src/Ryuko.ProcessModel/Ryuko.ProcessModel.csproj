@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="General\TaskUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\Delegates\Delegates.cs" />
     <Compile Include="StateMachine\Interfaces\IStatement.cs" />
@@ -51,13 +50,13 @@
     <Compile Include="StateMachine\Result.cs" />
     <Compile Include="StateMachine\Start.cs" />
     <Compile Include="StateMachine\StateMachine.cs" />
-    <Compile Include="StateMachine\SupportStateMachine.cs" />
+    <Compile Include="StateMachine\Internal\SupportStateMachine.cs" />
     <Compile Include="StateMachine\TaskModels\DoTask.cs" />
     <Compile Include="StateMachine\TaskModels\ExecuteTask.cs" />
     <Compile Include="StateMachine\TaskModels\GetTask.cs" />
     <Compile Include="StateMachine\TaskModels\ProcessTask.cs" />
     <Compile Include="StateMachine\TaskQueue.cs" />
-    <Compile Include="StateMachine\Workflow.cs" />
+    <Compile Include="StateMachine\Internal\Workflow.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ryuko.RuntimeServices\Ryuko.RuntimeService.csproj">

@@ -6,8 +6,8 @@ namespace Ryuko.ProcessModel.StateMachine
 {
     using Ryuko.ProcessModel.StateMachine.Interfaces;
     using Ryuko.RuntimeServices.DLR;
+
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 

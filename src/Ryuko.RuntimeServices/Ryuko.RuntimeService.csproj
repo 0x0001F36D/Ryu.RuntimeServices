@@ -82,10 +82,11 @@
     <Compile Include="Callable\Models\LazyObject.cs" />
     <Compile Include="Callable\Models\Strict.cs" />
     <Compile Include="Diagnostics\Perplexed.cs" />
-    <Compile Include="DLR\Extension.cs" />
     <Compile Include="DLR\IAtomicity.cs" />
-    <Compile Include="DLR\Indexer.cs" />
+    <Compile Include="DLR\NamedIndex.cs" />
+    <Compile Include="DLR\NamedIndexExtension.cs" />
     <Compile Include="DLR\Synthesis.cs" />
+    <Compile Include="DLR\SynthesisExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Callable\Types.cs" />
   </ItemGroup>

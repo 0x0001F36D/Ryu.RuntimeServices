@@ -2,6 +2,7 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 #define DLR
+
 namespace Ryuko.RuntimeServices.DLR
 {
     using CuttingEdge.Conditions;
@@ -11,7 +12,7 @@ namespace Ryuko.RuntimeServices.DLR
     using System.Linq.Expressions;
     using System.Reflection;
 
-    public static class Extension
+    public static class SynthesisExtension
     {
         public delegate object MemberSelector<T>(T target);
 

@@ -12,8 +12,8 @@ namespace Ryuko.Windows.Shell
 
     public static partial class Desktop
     {
-
         #region Properties
+
         /// <summary>
         /// 取得叫用端是否為作用中(Focus)的視窗
         /// </summary>
@@ -75,7 +75,7 @@ namespace Ryuko.Windows.Shell
         {
             SendMessage(GetHandle(), 0x0111, (IntPtr)0x7402, (IntPtr)0);
         }
-        #endregion
+
+        #endregion Methods
     }
-    
 }

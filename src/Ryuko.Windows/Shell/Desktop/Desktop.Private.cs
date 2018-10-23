@@ -10,10 +10,9 @@ namespace Ryuko.Windows.Shell
     using System;
     using System.Runtime.InteropServices;
 
-   
     static partial class Desktop
     {
-#region Structs
+        #region Structs
 
         [StructLayout(LayoutKind.Sequential)]
         private struct RECT
@@ -44,9 +43,9 @@ namespace Ryuko.Windows.Shell
             }
         }
 
-#endregion Structs
+        #endregion Structs
 
-#region Methods
+        #region Methods
 
         [DllImport(Constants.USER32_DLL, CharSet = CharSet.Unicode)]
         private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -94,6 +93,6 @@ namespace Ryuko.Windows.Shell
         [DllImport(Constants.USER32_DLL, CharSet = CharSet.Unicode)]
         private static extern bool ShowWindowAsync(IntPtr hWnd, SetWindows nCmdShow);
 
-#endregion Methods
+        #endregion Methods
     }
 }

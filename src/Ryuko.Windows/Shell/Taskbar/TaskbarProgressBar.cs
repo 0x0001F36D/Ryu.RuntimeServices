@@ -4,15 +4,15 @@
 
 namespace Ryuko.Windows.Shell
 {
+    using Ryuko.Windows.Shell.Enums;
+
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Runtime.InteropServices;
-    using Ryuko.Windows.Shell.Enums;
 
     public class TaskbarProgressBar : INotifyPropertyChanged, IDisposable
     {
-
         [ComImport]
         [Guid("ea1afb91-9e28-4b86-90e9-9e9f8a5eefaf")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -37,35 +37,13 @@ namespace Ryuko.Windows.Shell
             // ITaskbarList2
             [PreserveSig]
             void MarkFullscreenWindow(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
-            
+
             // ITaskbarList3
             [PreserveSig]
             void SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
 
             [PreserveSig]
             void SetProgressState(IntPtr hwnd, ProgressStatus state);
-        }
-
-        static TaskbarProgressBar()
-        {
-            s_taskbar = (ITaskbar)new Taskbar();
-        }
-
-        public TaskbarProgressBar( ulong maximum, bool autoReset = false)
-        {
-            var supported = Environment.OSVersion.Platform == PlatformID.Win32NT &&
-                Environment.OSVersion.Version.CompareTo(new Version(6, 1)) >= 0;
-            if (!supported)
-                throw new PlatformNotSupportedException();
-
-           
-
-            this._valueChangedEventArgs = new PropertyChangedEventArgs(nameof(Value));
-            this._statusChangedEventArgs = new PropertyChangedEventArgs(nameof(Status));
-            
-            this.MaxValue = maximum;
-            this._autoReset = autoReset;
-            this.Init();
         }
 
         [ComImport]
@@ -76,6 +54,22 @@ namespace Ryuko.Windows.Shell
         }
 
         private readonly static ITaskbar s_taskbar;
+
+        private readonly bool _autoReset;
+
+        private readonly PropertyChangedEventArgs _statusChangedEventArgs;
+
+        private readonly PropertyChangedEventArgs _valueChangedEventArgs;
+
+        private ulong _maxValue;
+
+        private IntPtr _ownerHandle;
+
+        private ProgressStatus _status;
+
+        private ulong _value;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public IntPtr Handle
         {
@@ -93,8 +87,6 @@ namespace Ryuko.Windows.Shell
                 return this._ownerHandle;
             }
         }
-            
-        private ulong _maxValue;
 
         public ulong MaxValue
         {
@@ -107,13 +99,6 @@ namespace Ryuko.Windows.Shell
             }
         }
 
-        public void Init()
-        {
-            this.Status = ProgressStatus.NoProgress;
-            s_taskbar.SetProgressValue(this.Handle, 0, this.MaxValue);
-        }
-
-        private ProgressStatus _status;
         public ProgressStatus Status
         {
             get => this._status;
@@ -124,9 +109,6 @@ namespace Ryuko.Windows.Shell
                 this.PropertyChanged?.Invoke(this, this._statusChangedEventArgs);
             }
         }
-
-        private ulong _value;
-        private IntPtr _ownerHandle;
 
         public ulong Value
         {
@@ -145,20 +127,38 @@ namespace Ryuko.Windows.Shell
                 }
 
                 this.PropertyChanged?.Invoke(this, this._valueChangedEventArgs);
-
             }
         }
 
+        static TaskbarProgressBar()
+        {
+            s_taskbar = (ITaskbar)new Taskbar();
+        }
 
-        private readonly PropertyChangedEventArgs _valueChangedEventArgs; 
-        private readonly PropertyChangedEventArgs _statusChangedEventArgs;
-        private readonly bool _autoReset;
+        public TaskbarProgressBar(ulong maximum, bool autoReset = false)
+        {
+            var supported = Environment.OSVersion.Platform == PlatformID.Win32NT &&
+                Environment.OSVersion.Version.CompareTo(new Version(6, 1)) >= 0;
+            if (!supported)
+                throw new PlatformNotSupportedException();
 
-        public event PropertyChangedEventHandler PropertyChanged;
+            this._valueChangedEventArgs = new PropertyChangedEventArgs(nameof(Value));
+            this._statusChangedEventArgs = new PropertyChangedEventArgs(nameof(Status));
+
+            this.MaxValue = maximum;
+            this._autoReset = autoReset;
+            this.Init();
+        }
 
         void IDisposable.Dispose()
         {
             this.Init();
+        }
+
+        public void Init()
+        {
+            this.Status = ProgressStatus.NoProgress;
+            s_taskbar.SetProgressValue(this.Handle, 0, this.MaxValue);
         }
     }
 }

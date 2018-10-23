@@ -2,6 +2,7 @@
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
 #define DLR
+
 namespace Ryuko.RuntimeServices.DLR
 {
     /// <summary>
@@ -9,6 +10,8 @@ namespace Ryuko.RuntimeServices.DLR
     /// </summary>
     public interface IAtomicity
     {
+        dynamic this[string name] { get; }
+
         bool Create<T>(string name, T value);
 
         bool Delete(string name);
@@ -18,7 +21,5 @@ namespace Ryuko.RuntimeServices.DLR
         bool Retrieve<T>(string name, out T value);
 
         bool Update<T>(string name, T value);
-
-        dynamic this[string name] { get; }
     }
 }

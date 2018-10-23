@@ -12,8 +12,6 @@ namespace Ryuko.ProcessModel.StateMachine
     {
         private readonly ConcurrentQueue<TStatement> _queue;
 
-        internal uint Count => (uint)this._queue.Count;
-
         internal bool HasElement
         {
             get
@@ -36,16 +34,6 @@ namespace Ryuko.ProcessModel.StateMachine
         internal bool TryDequeue(out TStatement current)
         {
             return this._queue.TryDequeue(out current);
-        }
-
-        internal bool TryFetch(ref TStatement current, ref TStatement next)
-        {
-            return this._queue.TryDequeue(out current) & this._queue.TryPeek(out next);
-        }
-
-        internal bool TryPeek(out TStatement next)
-        {
-            return this._queue.TryPeek(out next);
         }
     }
 }

@@ -6,12 +6,12 @@ namespace Ryuko.UnitTest.RuntimeServices.DLR
 {
     using NUnit.Framework;
 
-    using System;
-
     using Ryuko.RuntimeServices.DLR;
 
+    using System;
+
     [TestFixture]
-    public class DLRTest
+    public class SynthesisTest
     {
         public class Fake : Synthesis
         {
@@ -73,7 +73,7 @@ namespace Ryuko.UnitTest.RuntimeServices.DLR
         public void MembersAccess()
         {
             var syn = new Synthesis();
-            ((IAtomicity )syn).Create("a", 1);
+            ((IAtomicity)syn).Create("a", 1);
             ((IAtomicity)syn).Create("b", new Func<int, int, int>((arg1, arg2) => arg1 + arg2));
 
             dynamic props = syn;

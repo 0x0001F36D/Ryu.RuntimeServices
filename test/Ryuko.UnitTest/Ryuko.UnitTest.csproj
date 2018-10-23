@@ -54,14 +54,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProcessModels\StateMachine.cs" />
-    <Compile Include="RuntimeServices\Callable\CallableTest.cs" />
+    <Compile Include="RuntimeServices\Callable\ConstraintTest.cs" />
     <Compile Include="RuntimeServices\Callable\MockModels\ITestInterface.cs" />
     <Compile Include="RuntimeServices\Callable\MockModels\T1.cs" />
     <Compile Include="RuntimeServices\Callable\MockModels\T2.cs" />
     <Compile Include="RuntimeServices\Callable\MockModels\T3.cs" />
-    <Compile Include="RuntimeServices\Diagnostics\Class1.cs" />
-    <Compile Include="RuntimeServices\DLR\DLRTest.cs" />
+    <Compile Include="RuntimeServices\Diagnostics\PerplexedTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuntimeServices\DLR\NamedIndexTest.cs" />
+    <Compile Include="RuntimeServices\DLR\SynthesisTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -17,7 +17,6 @@ namespace Ryuko.Windows.Shell
 
     public static partial class Taskbar
     {
-
         private static IntPtr StartMenuWnd = IntPtr.Zero;
 
         /// <summary>
@@ -121,7 +120,6 @@ namespace Ryuko.Windows.Shell
 
         [DllImport(Constants.USER32_DLL)]
         private static extern int ShowWindow(IntPtr hwnd, SetWindows nCmdShow);
-
     }
 }
 #endif

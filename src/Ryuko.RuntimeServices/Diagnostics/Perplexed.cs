@@ -20,13 +20,13 @@ namespace Ryuko.RuntimeServices.Diagnostics
         /// 所在函式
         /// </summary>
         public MethodBase Method { get; }
+
         /// <summary>
         /// 所在類別
         /// </summary>
         public Type Type { get; }
 
         /// <summary>
-        /// 
         /// </summary>
         public Perplexed()
         {
@@ -34,9 +34,8 @@ namespace Ryuko.RuntimeServices.Diagnostics
             var method = st.GetFrame(1).GetMethod();
             foreach (var item in st.GetFrames())
             {
-                Debug.WriteLine(item); 
+                Debug.WriteLine(item);
             }
-
 
             if (st.FrameCount >= 4)
             {

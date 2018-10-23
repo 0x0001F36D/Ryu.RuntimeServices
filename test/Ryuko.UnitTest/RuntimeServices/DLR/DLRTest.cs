@@ -66,15 +66,15 @@ namespace Ryuko.UnitTest.RuntimeServices.DLR
         public void MemberNameCheck()
         {
             var c = new Synthesis();
-            Assert.Catch(() => c.Create<object>(null, null));
+            Assert.Catch(() => ((IAtomicity)c).Create<object>(null, null));
         }
 
         [TestCase]
         public void MembersAccess()
         {
             var syn = new Synthesis();
-            syn.Create("a", 1);
-            syn.Create("b", new Func<int, int, int>((arg1, arg2) => arg1 + arg2));
+            ((IAtomicity )syn).Create("a", 1);
+            ((IAtomicity)syn).Create("b", new Func<int, int, int>((arg1, arg2) => arg1 + arg2));
 
             dynamic props = syn;
 
@@ -83,10 +83,10 @@ namespace Ryuko.UnitTest.RuntimeServices.DLR
             Assert.AreEqual(a, 1);
             Assert.AreEqual(b, 30);
 
-            syn.Delete("a");
+            ((IAtomicity)syn).Delete("a");
             Assert.IsNull(props.a);
 
-            syn.Delete("b");
+            ((IAtomicity)syn).Delete("b");
             Assert.IsNull(props.b);
         }
 

@@ -45,23 +45,25 @@
   <ItemGroup>
     <Compile Include="General\TaskUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StateMachine\Builder.cs" />
     <Compile Include="StateMachine\Delegates\Delegates.cs" />
-    <Compile Include="StateMachine\FsmFlowDirection.cs" />
-    <Compile Include="StateMachine\FsmState.cs" />
     <Compile Include="StateMachine\Interfaces\IStatement.cs" />
-    <Compile Include="StateMachine\InteropTask.cs" />
+    <Compile Include="StateMachine\Interfaces\IWorkflow.cs" />
+    <Compile Include="StateMachine\Result.cs" />
+    <Compile Include="StateMachine\Start.cs" />
     <Compile Include="StateMachine\StateMachine.cs" />
+    <Compile Include="StateMachine\SupportStateMachine.cs" />
     <Compile Include="StateMachine\TaskModels\DoTask.cs" />
     <Compile Include="StateMachine\TaskModels\ExecuteTask.cs" />
     <Compile Include="StateMachine\TaskModels\GetTask.cs" />
     <Compile Include="StateMachine\TaskModels\ProcessTask.cs" />
     <Compile Include="StateMachine\TaskQueue.cs" />
     <Compile Include="StateMachine\Workflow.cs" />
-    <Compile Include="StateMachine\Workflow_T.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="StateMachine\image_thumb.png" />
+    <ProjectReference Include="..\Ryuko.RuntimeServices\Ryuko.RuntimeService.csproj">
+      <Project>{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}</Project>
+      <Name>Ryuko.RuntimeService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

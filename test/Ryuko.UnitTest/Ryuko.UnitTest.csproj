@@ -59,6 +59,7 @@
     <Compile Include="RuntimeServices\Callable\MockModels\T1.cs" />
     <Compile Include="RuntimeServices\Callable\MockModels\T2.cs" />
     <Compile Include="RuntimeServices\Callable\MockModels\T3.cs" />
+    <Compile Include="RuntimeServices\Diagnostics\Class1.cs" />
     <Compile Include="RuntimeServices\DLR\DLRTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

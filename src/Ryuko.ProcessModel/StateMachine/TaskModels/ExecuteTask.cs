@@ -4,18 +4,21 @@
 
 namespace Ryuko.ProcessModel.StateMachine.TaskModels
 {
-    using System;
-    using System.Diagnostics;
     using Ryuko.ProcessModel.StateMachine.Delegates;
     using Ryuko.ProcessModel.StateMachine.Interfaces;
+
+    using System;
+    using System.Diagnostics;
 
     [DebuggerDisplay("Type: Execute | Task: {Task} | NodeKind: {NodeKind}")]
     public sealed class ExecuteTask<TTask> : IStatement
     {
         private TaskQueue<IStatement> _queue;
-        
 
+        EventNodeKinds IStatement.NodeKind => EventNodeKinds.Execute;
         public ExecuteTaskHandler<TTask> Task { get; }
+        Delegate IStatement.Task => this.Task;
+
         internal ExecuteTask(ExecuteTaskHandler<TTask> task, TaskQueue<IStatement> queue)
         {
             this.Task = task;
@@ -33,14 +36,9 @@ namespace Ryuko.ProcessModel.StateMachine.TaskModels
             return new GetTask<TNewTask>(task, this._queue);
         }
 
-        public Workflow Stop()
+        public IWorkflow Stop()
         {
             return new Workflow(this._queue);
         }
-
-        Delegate IStatement.Task => this.Task;
-
-        EventNodeKinds IStatement.NodeKind => EventNodeKinds.Get;
-        
     }
 }

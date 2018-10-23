@@ -1,7 +1,7 @@
 ﻿// Author: Viyrex(aka Yuyu)
 // Contact: mailto:viyrex.aka.yuyu@gmail.com
 // Github: https://github.com/0x0001F36D
-
+#define DLR
 namespace Ryuko.RuntimeServices.DLR
 {
     using CuttingEdge.Conditions;
@@ -13,77 +13,7 @@ namespace Ryuko.RuntimeServices.DLR
     using System.Dynamic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Reflection;
     using System.Runtime.Serialization;
-
-    /// <summary>
-    /// 可對屬性做原子化操作
-    /// </summary>
-    public interface IAtomicity
-    {
-        bool Create<T>(string name, T value);
-
-        bool Delete(string name);
-
-        bool Exist(string name);
-
-        bool Retrieve<T>(string name, out T value);
-
-        bool Update<T>(string name, T value);
-    }
-
-    public static class Extension
-    {
-        public delegate object MemberSelector<T>(T target);
-
-        public static dynamic ToSynthesis<T>(this T target, params Expression<MemberSelector<T>>[] selectors) where T : class
-        {
-            Condition.Requires(target)
-                .IsNotNull();
-            Condition.Ensures(selectors)
-                .IsNotNull()
-                .IsNotEmpty();
-
-            var type = typeof(T);
-            var items = new Dictionary<string, object>();
-            foreach (var selector in selectors)
-            {
-                var body = selector.Body;
-                // process default(struct)
-                if (body is UnaryExpression ue)
-                {
-                    body = ue.Operand;
-                }
-                // end process
-
-                if (body is MemberExpression me)
-                {
-                    var name = default(string);
-                    var value = default(object);
-                    switch (me.Member)
-                    {
-                        case PropertyInfo property:
-                            {
-                                name = property.Name;
-                                value = property.GetValue(target);
-                                break;
-                            }
-                        case FieldInfo field:
-                            {
-                                name = field.Name;
-                                value = field.GetValue(target);
-                                break;
-                            }
-                        default:
-                            throw new NotSupportedException(selector.ToString());
-                    }
-                    items[name] = value;
-                }
-            }
-
-            return new Synthesis(items);
-        }
-    }
 
     /// <summary>
     /// 提供一般物件至 DLR 物件的動態轉換
@@ -248,7 +178,7 @@ namespace Ryuko.RuntimeServices.DLR
             Condition.Requires(name, nameof(name))
                 .IsNotNullOrWhiteSpace();
 
-            this.Create(name, value);
+            ((IAtomicity)this).Create(name, value);
         }
 
         /// <summary>
@@ -258,12 +188,12 @@ namespace Ryuko.RuntimeServices.DLR
         /// <param name="name">動態物件成員名稱</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public bool Create<T>(string name, T value)
+        bool IAtomicity.Create<T>(string name, T value)
         {
             Condition.Requires(name, nameof(name))
                 .IsNotNullOrWhiteSpace();
 
-            if (this.Exist(name))
+            if (((IAtomicity)this).Exist(name))
                 return false;
             ((IDictionary<string, object>)this._provider).Add(name, value);
             return true;
@@ -274,7 +204,7 @@ namespace Ryuko.RuntimeServices.DLR
         /// </summary>
         /// <param name="name">動態物件成員名稱</param>
         /// <returns></returns>
-        public bool Delete(string name)
+        bool IAtomicity. Delete(string name)
         {
             Condition.Requires(name, nameof(name))
                 .IsNotNullOrWhiteSpace();
@@ -287,7 +217,7 @@ namespace Ryuko.RuntimeServices.DLR
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public bool Exist(string name)
+        bool IAtomicity. Exist(string name)
         {
             Condition.Requires(name, nameof(name))
                 .IsNotNullOrWhiteSpace();
@@ -314,7 +244,7 @@ namespace Ryuko.RuntimeServices.DLR
         /// <param name="name">動態物件成員名稱</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public bool Retrieve<T>(string name, out T value)
+        bool IAtomicity. Retrieve<T>(string name, out T value)
         {
             Condition.Requires(name, nameof(name))
                 .IsNotNullOrWhiteSpace();
@@ -335,17 +265,27 @@ namespace Ryuko.RuntimeServices.DLR
         /// <param name="name">動態物件成員名稱</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public bool Update<T>(string name, T value)
+        bool IAtomicity. Update<T>(string name, T value)
         {
             Condition.Requires(name, nameof(name))
                 .IsNotNullOrWhiteSpace();
 
-            if (this.Exist(name))
+            if (((IAtomicity)this).Exist(name))
             {
                 ((IDictionary<string, object>)this._provider)[name] = value;
                 return true;
             }
             return false;
+        }
+
+        public dynamic this[string name]
+        {
+            get
+            {
+                return ((IDictionary<string, object>)this._provider).TryGetValue(name, out var v) 
+                    ? v 
+                    : throw new KeyNotFoundException("Key: "+name);
+            }
         }
     }
 }

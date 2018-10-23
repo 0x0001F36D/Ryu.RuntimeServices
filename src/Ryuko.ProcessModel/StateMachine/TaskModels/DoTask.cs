@@ -6,6 +6,7 @@ namespace Ryuko.ProcessModel.StateMachine.TaskModels
 {
     using Ryuko.ProcessModel.StateMachine.Delegates;
     using Ryuko.ProcessModel.StateMachine.Interfaces;
+
     using System;
     using System.Diagnostics;
 
@@ -14,7 +15,10 @@ namespace Ryuko.ProcessModel.StateMachine.TaskModels
     {
         private TaskQueue<IStatement> _queue;
 
+        EventNodeKinds IStatement.NodeKind => EventNodeKinds.Do;
         public DoTaskHandler Task { get; }
+
+        Delegate IStatement.Task => this.Task;
 
         internal DoTask(DoTaskHandler task, TaskQueue<IStatement> queue)
         {
@@ -33,13 +37,9 @@ namespace Ryuko.ProcessModel.StateMachine.TaskModels
             return new GetTask<T>(task, this._queue);
         }
 
-        public Workflow Stop()
+        public IWorkflow Stop()
         {
             return new Workflow(this._queue);
         }
-
-        Delegate IStatement.Task => this.Task;
-
-        EventNodeKinds IStatement.NodeKind => EventNodeKinds.Get;
     }
 }

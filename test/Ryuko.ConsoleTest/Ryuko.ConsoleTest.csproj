@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,9 +32,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CuttingEdge.Conditions, Version=1.2.0.11174, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CuttingEdge.Conditions.1.2.0.0\lib\NET35\CuttingEdge.Conditions.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,6 +62,10 @@
     <ProjectReference Include="..\..\src\Ryuko.ProcessModel\Ryuko.ProcessModel.csproj">
       <Project>{92BE999D-EBA6-4A83-87D9-6EF85D916AD1}</Project>
       <Name>Ryuko.ProcessModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ryuko.RuntimeServices\Ryuko.RuntimeService.csproj">
+      <Project>{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}</Project>
+      <Name>Ryuko.RuntimeService</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Ryuko.Windows\Ryuko.Windows.csproj">
       <Project>{42C575E4-4811-4DAF-B6F6-047D42EFE16F}</Project>

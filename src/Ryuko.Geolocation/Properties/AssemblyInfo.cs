@@ -1,10 +1,10 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿// Author: Viyrex(aka Yuyu)
+// Contact: mailto:viyrex.aka.yuyu@gmail.com
+// Github: https://github.com/0x0001F36D
+using System.Reflection;
 using System.Runtime.InteropServices;
 
-// 組件的一般資訊是由下列的屬性集控制。
-// 變更這些屬性的值即可修改組件的相關
-// 資訊。
+// 組件的一般資訊是由下列的屬性集控制。 變更這些屬性的值即可修改組件的相關 資訊。
 [assembly: AssemblyTitle("Ryuko.Geolocation")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
@@ -14,15 +14,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// 將 ComVisible 設為 false 可對 COM 元件隱藏
-// 組件中的類型。若必須從 COM 存取此組件中的類型，
-// 的類型，請在該類型上將 ComVisible 屬性設定為 true。
+// 將 ComVisible 設為 false 可對 COM 元件隱藏 組件中的類型。若必須從 COM 存取此組件中的類型， 的類型，請在該類型上將 ComVisible 屬性設定為 true。
 [assembly: ComVisible(false)]
 
 // 下列 GUID 為專案公開 (Expose) 至 COM 時所要使用的 typelib ID
 [assembly: Guid("348b17d8-e024-4ad3-8b50-a3223a40bcdf")]
 
-// 組件的版本資訊由下列四個值所組成: 
+// 組件的版本資訊由下列四個值所組成:
 //
 //      主要版本
 //      次要版本
@@ -32,5 +30,5 @@ using System.Runtime.InteropServices;
 // 您可以指定所有的值，或將組建編號或修訂編號設為預設值
 //方法是使用 '*'，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.5.6875")]
-[assembly: AssemblyFileVersion("2018.10.28.0134")]
+[assembly: AssemblyVersion("1.0.6.6875")]
+[assembly: AssemblyFileVersion("2018.10.28.0209")]

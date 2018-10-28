@@ -1,24 +1,38 @@
-﻿
+﻿// Author: Viyrex(aka Yuyu)
+// Contact: mailto:viyrex.aka.yuyu@gmail.com
+// Github: https://github.com/0x0001F36D
+
 namespace Ryuko.Geolocation.Mapping
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+
+    public interface ISelfMapping<T>
+    {
+        T MappingTo(IGeolocation geolocation);
+    }
+
     public static class MappingExtension
     {
         public static TMapping Mapping<TMapping>(this IGeolocation geolocation)
             where TMapping : ISelfMapping<TMapping>, new()
         {
-            return new TMapping().MappingTo(geolocation); 
+            return new TMapping().MappingTo(geolocation);
         }
     }
 
+    public abstract class SelfMapping<T> : ISelfMapping<T>
+    {
+        public SelfMapping()
+        {
+        }
+
+        T ISelfMapping<T>.MappingTo(IGeolocation geolocation) => this.MappingTo(geolocation);
+
+        protected abstract T MappingTo(IGeolocation geolocation);
+    }
 
     public class Taiwan : SelfMapping<Taiwan>
     {
-        
         private static readonly Dictionary<string, string> s_mapping = new Dictionary<string, string>
         {
             ["Keelung"] = "基隆",
@@ -41,9 +55,8 @@ namespace Ryuko.Geolocation.Mapping
             ["Penghu"] = "澎湖",
             ["Kinmen"] = "金門",
             ["Lienchiang"] = "連江",
-            // ["       "] = "        ",
+            // [" "] = " ",
         };
-        
 
         public string City { get; private set; }
 
@@ -52,20 +65,5 @@ namespace Ryuko.Geolocation.Mapping
             this.City = s_mapping[geolocation.RegionName];
             return this;
         }
-    }
-
-    public interface ISelfMapping<T>
-    {
-        T MappingTo(IGeolocation geolocation);
-    }
-
-    public abstract class SelfMapping<T> : ISelfMapping<T>
-    {
-        public SelfMapping()
-        {
-        }
-
-        protected abstract T MappingTo(IGeolocation geolocation);
-        T ISelfMapping<T>.MappingTo(IGeolocation geolocation) => this.MappingTo(geolocation);
     }
 }

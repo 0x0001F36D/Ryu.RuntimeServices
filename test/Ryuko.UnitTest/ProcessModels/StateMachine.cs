@@ -5,7 +5,9 @@
 namespace Ryuko.UnitTest.ProcessModels
 {
     using NUnit.Framework;
+
     using Ryuko.ProcessModel.StateMachine;
+
     using System.Diagnostics;
     using System.Threading.Tasks;
 
@@ -36,7 +38,6 @@ namespace Ryuko.UnitTest.ProcessModels
 
             var ne = new StateMachine();
             var resu = await ne.Start(new { n = wf2, wf }, excludeStack: true);
-            
 
             Assert.IsNull(resu.wf);
             Assert.AreEqual(12, resu.n);

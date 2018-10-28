@@ -76,8 +76,5 @@
       <Name>Ryuko.Windows</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="raw.json" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,12 +1,11 @@
-﻿
+﻿// Author: Viyrex(aka Yuyu)
+// Contact: mailto:viyrex.aka.yuyu@gmail.com
+// Github: https://github.com/0x0001F36D
+
 namespace Ryuko.UnitTest.Geolocation
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using NUnit.Framework;
+
     using Ryuko.Geolocation;
     using Ryuko.Geolocation.Mapping;
 
@@ -26,7 +25,6 @@ namespace Ryuko.UnitTest.Geolocation
             var info = Ipapi.Info;
             var taiwan = info.Mapping<Taiwan>();
             Assert.AreEqual(taiwan.City, "高雄");
-
         }
     }
 }

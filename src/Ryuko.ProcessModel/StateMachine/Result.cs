@@ -18,20 +18,27 @@ namespace Ryuko.ProcessModel.StateMachine
             this.Stack = stack;
         }
 
+        public override bool Equals(object obj) => this.Return?.Equals(obj) ?? obj is null;
+        public override int GetHashCode() => this.Return?.GetHashCode() ?? base.GetHashCode();
+
         public static implicit operator T(Result<T> obj)
         {
             return obj.Return;
         }
 
-        public override string ToString() => this.Return?.ToString() ?? "<null>";
+        public static bool operator !=(object s, Result<T> result)
+        {
+            return (object)result.Return != s;
+        }
+
+        public static bool operator !=(Result<T> result, object s)
+        {
+            return (object)result.Return != s;
+        }
 
         public static bool operator ==(object s, Result<T> result)
         {
             return (object)result.Return == s;
-        }
-        public static bool operator !=(object s, Result<T> result)
-        {
-            return (object)result.Return != s;
         }
 
         public static bool operator ==(Result<T> result, object s)
@@ -39,9 +46,6 @@ namespace Ryuko.ProcessModel.StateMachine
             return (object)result.Return == s;
         }
 
-        public static bool operator !=(Result<T> result, object s)
-        {
-            return (object)result.Return != s;
-        }
+        public override string ToString() => this.Return?.ToString() ?? "<null>";
     }
 }

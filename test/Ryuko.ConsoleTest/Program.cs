@@ -6,10 +6,8 @@ namespace Ryuko.ConsoleTest
 {
     using Ryuko.Geolocation;
     using Ryuko.Geolocation.Mapping;
-    using Ryuko.ProcessModel.StateMachine;
 
     using System;
-    using System.Diagnostics;
     using System.Threading.Tasks;
 
     internal class Program

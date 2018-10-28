@@ -24,5 +24,24 @@ namespace Ryuko.ProcessModel.StateMachine
         }
 
         public override string ToString() => this.Return?.ToString() ?? "<null>";
+
+        public static bool operator ==(object s, Result<T> result)
+        {
+            return (object)result.Return == s;
+        }
+        public static bool operator !=(object s, Result<T> result)
+        {
+            return (object)result.Return != s;
+        }
+
+        public static bool operator ==(Result<T> result, object s)
+        {
+            return (object)result.Return == s;
+        }
+
+        public static bool operator !=(Result<T> result, object s)
+        {
+            return (object)result.Return != s;
+        }
     }
 }

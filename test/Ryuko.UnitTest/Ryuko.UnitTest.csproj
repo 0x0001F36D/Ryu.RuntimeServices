@@ -11,7 +11,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ryuko.UnitTest</RootNamespace>
     <AssemblyName>Ryuko.UnitTest</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -21,6 +21,7 @@
     <TestProjectType>UnitTest</TestProjectType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,6 +54,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Geolocation\GeolocationServiceTest.cs" />
     <Compile Include="ProcessModels\StateMachine.cs" />
     <Compile Include="RuntimeServices\Callable\ConstraintTest.cs" />
     <Compile Include="RuntimeServices\Callable\MockModels\ITestInterface.cs" />
@@ -68,9 +70,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Ryuko.Geolocation\Ryuko.Geolocation.csproj">
+      <Project>{348b17d8-e024-4ad3-8b50-a3223a40bcdf}</Project>
+      <Name>Ryuko.Geolocation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ryuko.ProcessModel\Ryuko.ProcessModel.csproj">
+      <Project>{92be999d-eba6-4a83-87d9-6ef85d916ad1}</Project>
+      <Name>Ryuko.ProcessModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Ryuko.RuntimeServices\Ryuko.RuntimeService.csproj">
       <Project>{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}</Project>
       <Name>Ryuko.RuntimeService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ryuko.Windows\Ryuko.Windows.csproj">
+      <Project>{42c575e4-4811-4daf-b6f6-047d42efe16f}</Project>
+      <Name>Ryuko.Windows</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

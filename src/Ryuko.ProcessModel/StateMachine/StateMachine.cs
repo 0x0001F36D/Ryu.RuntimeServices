@@ -18,7 +18,7 @@ namespace Ryuko.ProcessModel.StateMachine
         /// <typeparam name="TAnonymous"></typeparam>
         /// <param name="list"></param>
         /// <returns></returns>
-        public async Task<dynamic> Start<TAnonymous>(TAnonymous list, CancellationToken token = default(CancellationToken)) where TAnonymous : class
+        public async Task<dynamic> Start<TAnonymous>(TAnonymous list, CancellationToken token = default, bool excludeStack = true) where TAnonymous : class
         {
             var names = list.Index().MatchAll<IWorkflow>();
             var tasks = new List<Task<Result<object>>>(names.Count);
@@ -38,7 +38,9 @@ namespace Ryuko.ProcessModel.StateMachine
 
             foreach (var p in names)
             {
-                props[p.Key] = (props[p.Key] as Task<Result<object>>).Result;
+                var tmp = (props[p.Key] as Task<Result<object>>).Result;
+
+                props[p.Key] = excludeStack ? tmp.Return : tmp;
             }
 
             return new Synthesis(props);

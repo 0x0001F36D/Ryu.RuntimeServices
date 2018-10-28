@@ -1,6 +1,6 @@
 ﻿### Overview
 
-[![Build status](https://ci.appveyor.com/api/projects/status/q61qn3928e9y8akx?svg=true)](https://ci.appveyor.com/project/0x0001F36D/Ryuko)
+[![Build status](https://ci.appveyor.com/api/projects/status/v4tlvx04lcm2n069?svg=true)](https://ci.appveyor.com/project/0x0001F36D/ryuko)
 
 對 .Net Framework 的基本功能延伸及擴充
 

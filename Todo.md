@@ -1,4 +1,4 @@
 # Overview
 
 - [ ] i18n + DLR
-- [ ] String Extension
+- [x] String Extension

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 組件的一般資訊是由下列的屬性集控制。
 // 變更這些屬性的值即可修改組件的相關
 // 資訊。
-[assembly: AssemblyTitle("Ryuko.Norolox")]
+[assembly: AssemblyTitle("Ryuko.Text")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Viyrex(aka Yuyu)")]
-[assembly: AssemblyProduct("Ryuko.Norolox")]
+[assembly: AssemblyProduct("Ryuko.Text")]
 [assembly: AssemblyCopyright("Copyright © Viyrex(aka Yuyu) 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // 您可以指定所有的值，或將組建編號或修訂編號設為預設值
 //方法是使用 '*'，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.1.6877")]
-[assembly: AssemblyFileVersion("2018.10.30.1045")]
+[assembly: AssemblyVersion("1.0.3.6878")]
+[assembly: AssemblyFileVersion("2018.10.30.1655")]

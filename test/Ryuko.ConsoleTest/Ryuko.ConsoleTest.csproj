@@ -64,10 +64,6 @@
       <Project>{348b17d8-e024-4ad3-8b50-a3223a40bcdf}</Project>
       <Name>Ryuko.Geolocation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Ryuko.Norolox\Ryuko.Norolox.csproj">
-      <Project>{d1b652f7-5bfb-42a6-b022-76a61bd72348}</Project>
-      <Name>Ryuko.Norolox</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Ryuko.ProcessModel\Ryuko.ProcessModel.csproj">
       <Project>{92BE999D-EBA6-4A83-87D9-6EF85D916AD1}</Project>
       <Name>Ryuko.ProcessModel</Name>

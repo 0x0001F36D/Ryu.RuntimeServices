@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{4C
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
 		Readme.md = Readme.md
+		Todo.md = Todo.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.RuntimeService", "src\Ryuko.RuntimeServices\Ryuko.RuntimeService.csproj", "{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}"
@@ -22,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.UnitTest", "test\Ryuk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.Geolocation", "src\Ryuko.Geolocation\Ryuko.Geolocation.csproj", "{348B17D8-E024-4AD3-8B50-A3223A40BCDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.Norolox", "src\Ryuko.Norolox\Ryuko.Norolox.csproj", "{D1B652F7-5BFB-42A6-B022-76A61BD72348}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryuko.Text", "src\Ryuko.Text\Ryuko.Text.csproj", "{D1B652F7-5BFB-42A6-B022-76A61BD72348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

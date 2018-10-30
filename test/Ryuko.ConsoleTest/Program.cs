@@ -3,24 +3,29 @@
 // Github: https://github.com/0x0001F36D
 
 namespace Ryuko.ConsoleTest
-{
-    using Ryuko.Geolocation;
-    using Ryuko.Geolocation.Mapping;
-
+{ 
     using System;
+    using System.CodeDom;
+    using System.CodeDom.Compiler;
+    using System.Drawing;
+    using System.IO;
+    using System.Resources;
+    using System.Resources.Tools;
+    using System.Text;
     using System.Threading.Tasks;
+    using Microsoft.CSharp;
+    using Norolox;
 
     internal class Program
     {
-        [STAThread]
-        private static async Task Main(string[] args)
+        public static void Main()
         {
-            var geo = Ipapi.Info;
-            Console.WriteLine(geo.Isp);
-            var obj = geo.Mapping<Taiwan>();
-            Console.WriteLine(obj);
-
-            Console.ReadKey();
         }
+
+        private static void CreateResXFile()
+        {
+        }
+
+
     }
 }

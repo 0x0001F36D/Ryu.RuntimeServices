@@ -118,12 +118,12 @@ namespace Ryuko.Geolocation
             this.Refetch();
         }
 
-        public Ipapi Refetch()
+        public IGeolocationProvider Refetch()
         {
             return this.RefetchAsync().Result;
         }
 
-        public async Task<Ipapi> RefetchAsync(CancellationToken token = default)
+        public async Task<IGeolocationProvider> RefetchAsync(CancellationToken token = default)
         {
             using (var client = new HttpClient())
             {

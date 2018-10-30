@@ -11,8 +11,8 @@ namespace Ryuko.Geolocation
     {
         IGeolocation Geolocation { get; }
 
-        Ipapi Refetch();
+        IGeolocationProvider Refetch();
 
-        Task<Ipapi> RefetchAsync(CancellationToken token = default);
+        Task<IGeolocationProvider> RefetchAsync(CancellationToken token = default);
     }
 }

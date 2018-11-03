@@ -28,18 +28,19 @@ namespace Ryuko.RuntimeServices.Diagnostics
 
         /// <summary>
         /// </summary>
-        public Perplexed()
+        public Perplexed(ushort offset)
         {
             var st = new StackTrace(true);
-            var method = st.GetFrame(1).GetMethod();
+            var method = st.GetFrame(1+offset).GetMethod();
             foreach (var item in st.GetFrames())
             {
                 Debug.WriteLine(item);
             }
 
-            if (st.FrameCount >= 4)
+            if (st.FrameCount >= 4 + offset)
             {
-                var maybe = st.GetFrame(3).GetMethod();
+                var maybe = st.GetFrame(3 + offset
+                    ).GetMethod();
                 if (maybe.GetCustomAttribute<AsyncStateMachineAttribute>() is AsyncStateMachineAttribute)
                 {
                     method = maybe;

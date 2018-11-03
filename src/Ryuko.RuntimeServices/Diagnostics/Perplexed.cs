@@ -28,7 +28,7 @@ namespace Ryuko.RuntimeServices.Diagnostics
 
         /// <summary>
         /// </summary>
-        public Perplexed(ushort offset)
+        public Perplexed(ushort offset = 0)
         {
             var st = new StackTrace(true);
             var method = st.GetFrame(1+offset).GetMethod();

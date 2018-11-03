@@ -72,6 +72,10 @@
       <Project>{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}</Project>
       <Name>Ryuko.RuntimeService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Ryuko.Text\Ryuko.Text.csproj">
+      <Project>{d1b652f7-5bfb-42a6-b022-76a61bd72348}</Project>
+      <Name>Ryuko.Text</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Ryuko.Windows\Ryuko.Windows.csproj">
       <Project>{42C575E4-4811-4DAF-B6F6-047D42EFE16F}</Project>
       <Name>Ryuko.Windows</Name>

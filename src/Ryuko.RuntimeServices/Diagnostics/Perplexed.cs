@@ -4,8 +4,6 @@
 
 namespace Ryuko.RuntimeServices.Diagnostics
 {
-    
-
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -33,7 +31,7 @@ namespace Ryuko.RuntimeServices.Diagnostics
         Async = 2,
 
         /// <summary>
-        /// Indicates the Contructor method.
+        /// Indicates the Constructor method.
         /// </summary>
         Construstor = 4,
 

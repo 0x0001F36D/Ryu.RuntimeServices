@@ -1,33 +1,18 @@
 ﻿### Overview
 
-[![Build status](https://ci.appveyor.com/api/projects/status/v4tlvx04lcm2n069?svg=true)](https://ci.appveyor.com/project/0x0001F36D/ryuko)
-
 對 .Net Framework 的基本功能延伸及擴充
 
-
 ### Namespaces
-    
-> 提供對執行期的物件進行轉換以及擴充  
 
-  - #### Ryuko.RuntimeServices.Callable 
-    提供執行期中對建構物件的中繼層支援，主要類別為 Contraint\<T> 類別，使用委派進行物件的建構及鬆散耦合，可使用 精確模式(參數類型必須完全一致) 
-及 模糊匹配模式(參數可於搜尋後再給或直接輸出所有的物件) 作為執行期建構函式
+- RuntimeServices.Callable 
+  > 提供執行期中對建構物件的中繼層支援，主要類別為 Contraint\<T> 類別，使用委派進行物件的建構及鬆散耦合，可使用 精確模式(參數類型必須完全一致) 
+  > 及 模糊匹配模式(參數可於搜尋後再給或直接輸出所有的物件) 作為執行期建構函式
 
-  - #### Ryuko.RuntimeServices.DLR
-    提供物件對 dynamic 的自定轉換，主要類別為 Synthesis 類別
-<hr>
+- RuntimeServices.DLR
+  > 提供物件對 ```dynamic``` 的自定轉換，主要類別為 Synthesis 類別
 
-> 提供對 Windows 平台下的的桌面及工具列支援
+- Diagnostics
+  > 提供物件自我診斷之能力
 
-  - #### Ryuko.Windows.Shell
-    實作 TaskbarProgressBar 類別及對 Desktop 對桌面圖示的控制支援
-<hr>
-
-> 提供處理模型架構的實作
-
-  - #### Ryuko.ProcessModels.StateMachine
-    提供對狀態機模式的模型處理支援
-<hr>
-
-
-
+- Windows.Shell
+  > 提供對 Windows 平台下的的桌面及工具列支援，實作 TaskbarProgressBar 類別及對 Desktop 對桌面圖示的控制支援

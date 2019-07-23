@@ -54,8 +54,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Geolocation\GeolocationServiceTest.cs" />
-    <Compile Include="ProcessModels\StateMachine.cs" />
     <Compile Include="RuntimeServices\Callable\ConstraintTest.cs" />
     <Compile Include="RuntimeServices\Callable\MockModels\ITestInterface.cs" />
     <Compile Include="RuntimeServices\Callable\MockModels\T1.cs" />
@@ -68,24 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Ryuko.Geolocation\Ryuko.Geolocation.csproj">
-      <Project>{348b17d8-e024-4ad3-8b50-a3223a40bcdf}</Project>
-      <Name>Ryuko.Geolocation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Ryuko.ProcessModel\Ryuko.ProcessModel.csproj">
-      <Project>{92be999d-eba6-4a83-87d9-6ef85d916ad1}</Project>
-      <Name>Ryuko.ProcessModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Ryuko.RuntimeServices\Ryuko.RuntimeService.csproj">
-      <Project>{EF28690E-268A-4B0E-8A5E-BF0EB4E4F978}</Project>
-      <Name>Ryuko.RuntimeService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Ryuko.Windows\Ryuko.Windows.csproj">
-      <Project>{42c575e4-4811-4daf-b6f6-047d42efe16f}</Project>
-      <Name>Ryuko.Windows</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

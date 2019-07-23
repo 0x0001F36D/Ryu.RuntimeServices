@@ -3,26 +3,31 @@ namespace Ryuko.Dev
 {
     using Ryuko.Diagnostics;
     using System;
+    using System.Diagnostics;
     using System.IO;
 
     class Test
     {
         static void Main(string[] args)
         {
+            if(RunningMode.IsDebug)
+            {
+                Console.WriteLine("Debugging...");
+            }
+            //Perplexed.Locate(99);
+
+
             var t = new Test();
           //  t.Item = null;
           //  t.get_Item(2);
             
-            
             t[null] = null;
             _ = t[null];
 
-            t = ((~t + t - t * t / t % t ^ t | t++ & --t) >> 1) << 1;
-           
-            var d = t == t;
-            d = t != t;
+            t = ((((~t + t - t * t / t % t ^ t | t++ & --t) >> 1) << 1) > t) < t;
+            
             if (t)
-            {
+            { 
             }
         }
 
@@ -153,39 +158,16 @@ namespace Ryuko.Dev
         }
 
 
-
-        /*
-        public object this[int index, int index2]
-        {
-            get
-            {
-                Console.WriteLine(Perplexed.Locate().Attributes);
-                return null;
-            }
-            set
-            {
-                Console.WriteLine(Perplexed.Locate().Attributes);
-            }
-        }*/
-
-        /*
-    public object Item {
-        get
+        public static Test operator >(Test t, Test x)
         {
             Console.WriteLine(Perplexed.Locate().Attributes);
-            return null;
+            return t;
         }
-        set
+        public static Test operator <(Test t, Test x)
         {
             Console.WriteLine(Perplexed.Locate().Attributes);
+            return t;
         }
-    }
-
-    public object get_Item(int i)
-    {
-        Console.WriteLine(Perplexed.Locate().Attributes);
-        return null;
-    }
-    */
+         
     }
 }

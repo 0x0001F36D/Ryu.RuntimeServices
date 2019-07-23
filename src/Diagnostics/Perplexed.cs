@@ -12,8 +12,6 @@ namespace Ryuko.Diagnostics
     using System.Reflection;
     using System.Runtime.CompilerServices;
 
-
-
     [DebuggerDisplay("{_}")]
     public sealed class Perplexed
     {
@@ -21,6 +19,7 @@ namespace Ryuko.Diagnostics
         /// Gets the location of the call to this method.
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public static Perplexed Locate()
         {
             return Locate(1);
@@ -33,15 +32,18 @@ namespace Ryuko.Diagnostics
         /// <returns></returns>
         public static Perplexed Locate(sbyte offset)
         {
-            var st = new StackTrace(false); 
+            var st = new StackTrace(RunningMode.IsDebug);
+            
+
             if (st.FrameCount >= 4 + offset)
             {
                 var method = st.GetFrame(3 + offset).GetMethod();
                 if (Attribute.IsDefined(method, typeof(AsyncStateMachineAttribute)))
                     return new Perplexed(method, true);
-            }            
+            }
 
-            return new Perplexed(st.GetFrame(1 + offset).GetMethod(), false);
+            var current = st.GetFrame(offset + 1).GetMethod();
+            return new Perplexed(current, false);
         }
 
 
@@ -88,7 +90,7 @@ namespace Ryuko.Diagnostics
                 this.Attributes |= MethodFlags.Static;
             }
 
-            #region Method Signature Abstraction
+#region Method Signature Abstraction
 
             if (m is ConstructorInfo)
             {
@@ -115,11 +117,9 @@ namespace Ryuko.Diagnostics
                 this.InLambda = true;
                 this.Attributes |= MethodFlags.Lambda;
             }
-
-            #endregion
-
+#endregion
             if(m is MethodInfo pm)
-            {
+            { 
                 var param = Array.ConvertAll(pm.GetParameters(), x => x.ParameterType);
 
                 // Indexer - Getter
@@ -242,6 +242,14 @@ namespace Ryuko.Diagnostics
                     else if (string.Equals(pm.Name, "op_Inequality", StringComparison.OrdinalIgnoreCase))
                     {
                         this.Attributes |= MethodFlags.Inequality;
+                    }
+                    else if (string.Equals(pm.Name, "op_GreaterThan", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this.Attributes |= MethodFlags.GreaterThan;
+                    }
+                    else if (string.Equals(pm.Name, "op_LessThan", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this.Attributes |= MethodFlags.LessThan;
                     }
                 }
                 else if (pm.IsStatic &&

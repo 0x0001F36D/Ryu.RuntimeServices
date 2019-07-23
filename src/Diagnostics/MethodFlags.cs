@@ -95,6 +95,8 @@ namespace Ryuko.Diagnostics
         True = 1 << 28,
         False = 1 << 29,
         Increment = 1ul << 30,
-        Decrement = 1ul << 31
+        Decrement = 1ul << 31,
+        GreaterThan = 1ul << 32,
+        LessThan = 1ul <<33
     }
 }
